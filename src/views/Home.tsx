@@ -1,13 +1,17 @@
-import { Input } from 'native-base';
+import { Box, Flex, Input, Text, Button } from 'native-base';
 import * as React from 'react';
-import { Text, View } from 'react-native';
 
 export const HomeScreen = () => {
-
+const handleAdd =() => {
+    console.log('add')
+}
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Home!</Text>
-          <Input placeholder='word to add' />
-        </View>
+          <Flex flexDirection="column" justifyContent="center" align='center' w="100%" h="100%" >
+          <Text margin={1}>Home!</Text>
+          <Box flexDirection="row" justifyContent="center" w="90%" >
+          <Input placeholder='word to add' w="50%" m={1} />
+          <Button m={1} onPress={handleAdd} >Add</Button>
+          </Box>
+          </Flex>
       );
 }
