@@ -9,6 +9,14 @@ export const HomeScreen = () => {
   const [inputValue, setInputValue] = React.useState('');
 
   const addItem = title => {
+    const isExist = list.find(item => item === title);
+    if (isExist) {
+      toast.show({
+        title: "Word Already Exists",
+      });
+      return;
+    }
+
     if (title === "") {
       toast.show({
         title: "Please Enter Text",
