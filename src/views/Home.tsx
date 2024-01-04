@@ -5,21 +5,14 @@ import { useDictSearch } from '../utils/useDictSearch';
 export const HomeScreen = () => {
   // utils
   const toast = useToast();
-  const fetchDict = useDictSearch({ word: 'test' });
-
+  const fetchDict = useDictSearch();
 
   // definitions
   const [modalVisible, setModalVisible] = React.useState(false);
-
-  React.useEffect(() => {
-    fetchDict.fetchDict('test');
-  }, []);
-
+  const [definition, setDefinition] = React.useState('');
 
   // word list
-  const wordList = []
-
-  const [list, setList] = React.useState(wordList);
+  const [list, setList] = React.useState([]);
   const [inputValue, setInputValue] = React.useState('');
 
 
@@ -45,12 +38,23 @@ export const HomeScreen = () => {
     });
   };
 
+  const handleDefinitionButton =(index: number) => {
+    setModalVisible(true)
+    handleWordToSearch(index)
+  }
+
+  const handleWordToSearch = async (index: number) => {
+    const wordToSearch = list[index]
+   const def = await fetchDict.fetchDict(wordToSearch);
+    console.log(def)
+  }
+
     return (
           <Flex flexDirection="column" justifyContent="center" align='center' w="100%" h="100%" >
               <Text margin={1}>Home!</Text>
                 <Box flexDirection="row" justifyContent="center" w="90%" >
-                  <Input placeholder='word to add' w="50%" m={1} value={inputValue} onChangeText={v => setInputValue(v)}   />
-                  <Button m={1} onPress={() => {
+                  <Input aria-label='input-box' placeholder='word to add' w="50%" m={1} value={inputValue} onChangeText={v => setInputValue(v)}   />
+                  <Button aria-label='add-button' m={1} onPress={() => {
                     addItem(inputValue);
                     setInputValue("");
                   }}  >Add</Button>
@@ -58,16 +62,19 @@ export const HomeScreen = () => {
               
                 <VStack space={2}>
                   {list.map((item, index) => 
-                    <HStack w="100%" justifyContent="space-between" alignItems="center">
-                      <Text textAlign="left"  key={index} margin={1}>{item}</Text>
-                      <Button size="sm" onPress={() => setModalVisible(true)} >See definition</Button>
+                    <HStack key={index}  w="100%" justifyContent="space-between" alignItems="center">
+                      <Text key={index}  aria-label={`vocab-word-${index}`} textAlign="left"  margin={1}>{item}</Text>
+                      <Button  aria-label='definition-button' size="sm" onPress={() => handleDefinitionButton(index)} >See definition</Button>
                     </HStack>
                   )}
                 </VStack>
-                <Modal  isOpen={modalVisible} onClose={() => setModalVisible(false)} >
+                <Modal aria-label='definition-modal' isOpen={modalVisible} onClose={() => setModalVisible(false)} >
                     <Modal.Content>
                     <Modal.CloseButton />
-                    <Modal.Header>Contact Us</Modal.Header>
+                    <Modal.Header>Definition</Modal.Header>
+                    <Modal.Body>
+                      <Text>{definition}</Text>
+                    </Modal.Body>
                     </Modal.Content>
                 </Modal>
           </Flex>

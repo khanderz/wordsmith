@@ -4,7 +4,7 @@ interface DictSearchProps {
     word: string;
 }
 
-export const useDictSearch = (props: DictSearchProps) => {
+export const useDictSearch = () => {
     const fetchDict = async (word: string) => {
         const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
         const data = await response.json();
