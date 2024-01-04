@@ -18,6 +18,7 @@
     "css-tree": "^2.3.1",
     "expo": "~49.0.8",
     "expo-status-bar": "~1.6.0",
+    "lodash": "^4.17.21",
     "native-base": "^3.4.28",
     "normalize-css-color": "^1.0.2",
     "pod-install": "^0.1.38",
