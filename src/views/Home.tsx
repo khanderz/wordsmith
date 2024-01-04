@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, Flex, Input, Text, Button, VStack, HStack, useToast, Modal } from 'native-base';
 import { useDictSearch } from '../utils/useDictSearch';
+import { Definition } from '../types';
 
 export const HomeScreen = () => {
   // utils
@@ -9,7 +10,7 @@ export const HomeScreen = () => {
 
   // definitions
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [definition, setDefinition] = React.useState('');
+  const [definition, setDefinition] = React.useState<Definition[] | Definition>([]);
 
   // word list
   const [list, setList] = React.useState([]);
@@ -39,14 +40,22 @@ export const HomeScreen = () => {
   };
 
   const handleDefinitionButton =(index: number) => {
-    setModalVisible(true)
     handleWordToSearch(index)
   }
 
   const handleWordToSearch = async (index: number) => {
     const wordToSearch = list[index]
-   const def = await fetchDict.fetchDict(wordToSearch);
-    console.log(def)
+   const def : Definition[] | Definition = await fetchDict.fetchDict(wordToSearch);
+
+   if ((def as Definition).title === 'No Definitions Found') {
+      toast.show({
+        title: "No Definitions Found",
+      });
+      return;
+   } else {
+    setModalVisible(true)
+    setDefinition(def)
+   }
   }
 
     return (
@@ -73,7 +82,22 @@ export const HomeScreen = () => {
                     <Modal.CloseButton />
                     <Modal.Header>Definition</Modal.Header>
                     <Modal.Body>
-                      <Text>{definition}</Text>
+                     <VStack space={2}>
+                      {(definition as Definition[]).map((item, definitionIndex) => 
+                        item.meanings.map((meaning, meaningIndex) =>
+                          meaning.definitions.map((def, defIndex) => 
+                          def.definition
+                          )
+                        )
+                      )}
+                     </VStack>
+                      {/* {definition.map((item, index) => {
+                        item.meanings.map((meaning, index) => {
+                          meaning.definitions.map((def, index) => 
+                          def.definition
+                        )
+                      }
+                      )})} */}
                     </Modal.Body>
                     </Modal.Content>
                 </Modal>

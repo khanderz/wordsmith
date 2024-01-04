@@ -1,34 +1,35 @@
-interface Definition {
+export interface Definition {
     word: string;
     phonetic: string;
     phonetics: Phonetics[];
     license: License;
     meanings: Meanings[];
     sourceUrls: string[];
+    title?: string;
   }
 
-  type Phonetics = {
+  export type Phonetics = {
     audio: string;
     license: License;
     sourceUrl: string;
     text: string;
   }
 
-  type License = {
+  export type License = {
     name: string;
     url: string;
   }
 
-  type PartOfSpeech = 'noun' | 'verb' | 'adjective' | 'adverb' | 'pronoun' | 'preposition' | 'conjunction' | 'interjection' | 'abbreviation' | 'prefix' | 'suffix';
+  export type PartOfSpeech = 'noun' | 'verb' | 'adjective' | 'adverb' | 'pronoun' | 'preposition' | 'conjunction' | 'interjection' | 'abbreviation' | 'prefix' | 'suffix';
 
-  type Meanings = {
+  export type Meanings = {
     partOfSpeech: PartOfSpeech; 
     definitions: Definitions[];
     antonyms: string[];
     synonyms: string[];
   }
 
-  type Definitions = {
+  export type Definitions = {
     definition: string;
     synonyms: string[];
     antonyms: string[];
