@@ -6,11 +6,19 @@ import { BottomNavigationBar } from './src/components/BottomNavigationBar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NativeBaseProvider } from 'native-base';
 import { createClient } from "@supabase/supabase-js";
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 export default function App() {
   const supabaseUrl = process.env.SUPABASE_URL
   const supabaseKey = process.env.SUPABASE_KEY
   const supabase = createClient(supabaseUrl, supabaseKey)
+
+  // Initialize Apollo Client
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache()
+});
+
 
   // useEffect(() => {
   //   getCountries();
@@ -22,6 +30,7 @@ export default function App() {
   // }
 
   return (
+    <ApolloProvider client={client}>
     <SafeAreaProvider>
          <NativeBaseProvider>
       <NavigationContainer>
@@ -33,6 +42,7 @@ export default function App() {
       </NavigationContainer>
       </NativeBaseProvider>
     </SafeAreaProvider>
+      </ApolloProvider>
   );
 }
 
