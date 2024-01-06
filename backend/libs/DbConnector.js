@@ -1,5 +1,5 @@
-// class DbConnector {
-//     static MONGO = new DbConnector("mongodb");
+class DbConnector {
+    static SUPABASE = new DbConnector("supabase");
   
 //     #name = null;
 //     #dbConnector = null;
@@ -27,7 +27,7 @@
 //     toString() {
 //       return this.#name;
 //     }
-//   }
+  }
   
-//   module.exports = DbConnector;
+  module.exports = DbConnector;
   
