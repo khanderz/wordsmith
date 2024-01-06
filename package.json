@@ -13,6 +13,7 @@
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/material-bottom-tabs": "^6.2.16",
     "@react-navigation/native": "^6.1.7",
+    "@supabase/supabase-js": "^2.39.2",
     "@types/react": "~18.2.14",
     "css-select": "^5.1.0",
     "css-tree": "^2.3.1",
