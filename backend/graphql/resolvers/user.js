@@ -1,4 +1,4 @@
-// require("module-alias/register");
+require("module-alias/register");
 
 // const { Surgery, Provider } = require("@serverless/models/mongodb");
 // const DbConnector = require("@serverless/libs/DbConnector");
@@ -7,8 +7,8 @@
 // const SendService = require("@serverless/libs/SendService");
 // const { ObjectId } = require("mongodb");
 
-// const resolvers = {
-//   Query: {
+const resolvers = {
+  Query: {
 //     getUserByEmail: GraphqlResolver.getQuery(
 //       async (args, fields, ctx, evt) => {
 //         const { email, bidCompanyId, procedureId, accessLevel } = args;
@@ -100,8 +100,8 @@
 //       },
 //       [DbConnector.MONGO]
 //     ),
-//   },
-//   Mutation: {
+  },
+  Mutation: {
 //     sendProductRepInvite: GraphqlResolver.getMutation(
 //       async (args, fields, ctx, evt) => {
 //         const { email, bidCompanyId, procedureId, accessLevel } = args;
@@ -233,8 +233,8 @@
 //       [DbConnector.MONGO]
 //     ),
 
-//   },
+  },
 //   Subscription: {},
-// };
+};
 
-// module.exports = resolvers;
+module.exports = resolvers;

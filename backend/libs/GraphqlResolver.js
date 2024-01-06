@@ -1,6 +1,6 @@
-// const Utils = require("@serverless/libs/Utils");
+const Utils = require("./Utils");
 
-// class GraphqlResolver {
+class GraphqlResolver {
 //   static #getAwsSubscribeMutationHandlers(typeDef, mutationName) {
 //     const awsSubscribeHandlers = typeDef.definitions
 //       .filter((definition) => definition.name.value === "Subscription")?.[0]
@@ -17,6 +17,7 @@
 
 //     return awsSubscribeHandlers.map((handler) => handler.name.value);
 //   }
+
 //   static getMutation(fnc, dbs) {
 //     if (!Utils.isServerless()) {
 //       const ApolloUtils = require("@serverless/libs/ApolloUtils");
@@ -51,6 +52,7 @@
 
 //     return GraphqlResolver.getQuery(fnc, dbs);
 //   }
+
 //   static getQuery(fnc, dbs) {
 //     if (Utils.isServerless()) {
 //       const AppSyncUtils = require("@serverless/libs/AppSyncUtils");
@@ -60,6 +62,7 @@
 //       return ApolloUtils.resolverToApolloFnc(fnc, dbs);
 //     }
 //   }
+
 //   static getSubscription(name) {
 //     if (!Utils.isServerless()) {
 //       const pubsub = global.pubsub;
@@ -88,6 +91,7 @@
 //       return () => ({});
 //     }
 //   }
+
 //   static #handlerToLabel(handlerName) {
 //     let label = "";
 //     for (let currChar of handlerName) {
@@ -101,6 +105,6 @@
 
 //     return label;
 //   }
-// }
+}
 
-// module.exports = GraphqlResolver;
+module.exports = GraphqlResolver;

@@ -46,14 +46,10 @@ type Meanings {
 }
 
 // Queries
-type Query {
-    getWord(word: String!): Word
-}
+type Query {}
 
 // Mutations
-type Mutation {
-    insertWord(word: Word!): WordInsertResponse!
-}
+type Mutation {}
 
 type WordInsertResponse {
   affectedCount: Int!

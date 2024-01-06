@@ -1,5 +1,5 @@
 const { gql } = require("apollo-server-express");
-import postgres from 'postgres'
+const postgres = require("postgres")
 
 class Utils {
   static isServerless() {

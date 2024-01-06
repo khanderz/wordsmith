@@ -1,7 +1,7 @@
 const {
     word,
     user,
-  } = require("./resolvers/");
+  } = require("./resolvers");
 //   const {
 //     awsDateScalar,
 //     awsTimeScalar,
@@ -11,12 +11,12 @@ const {
   
   const resolvers = {
     Query: {
-      ...word.Query,
-      ...user.Query,
+      ...word?.Query,
+      ...user?.Query,
     },
     Mutation: {
-      ...word.Mutation,
-      ...user.Mutation,
+      ...word?.Mutation,
+      ...user?.Mutation,
     },
 //     AWSDate: awsDateScalar,
 //     AWSTime: awsTimeScalar,

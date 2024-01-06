@@ -1,11 +1,12 @@
+require("module-alias/register");
 
 
 const resolvers = {
     Query: {
-        getWord
+        // getWord
     },
     Mutation: {
-        insertWord
+        // insertWord
     }
 }
 
