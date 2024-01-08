@@ -1,15 +1,12 @@
-require("dotenv").config();
 require("module-alias/register");
 
 const { createServer } = require("http");
-const express = require("express");
 
 (async () => {
     const bodyParser = require("body-parser");
-    const errorHandler = require("express-json-errors");
   
     const Apollo = require("./libs/Apollo");
-    const { typeDefs, resolvers } = require("./routes/graphql/index");
+    // const { typeDefs, resolvers } = require("./routes/graphql/index");
   
     const PORT = process.env.PORT;
     const app = express();
@@ -32,13 +29,13 @@ const express = require("express");
   
     const httpServer = createServer(app);
   
-    await Apollo.createApolloServer(
-      typeDefs,
-      resolvers,
-      app,
-      httpServer,
-      "/graphql"
-  );
+  //   await Apollo.createApolloServer(
+  //     typeDefs,
+  //     resolvers,
+  //     app,
+  //     httpServer,
+  //     "/graphql"
+  // );
   
     httpServer.listen(PORT);
 
