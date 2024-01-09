@@ -1,6 +1,0 @@
-// Queries
-type Query {}
-
-// Mutations
-type Mutation {}
-
