@@ -19,9 +19,9 @@ export const GetWordListQuery = gql`
   }
 `;
 
-export const AddWordMutation = gql`
-  mutation addWord($word: String!) {
-    addWord(word: $word) {
+export const insertWordMutation = gql`
+  mutation insertWord($word_object: WordInsertInput!) {
+    addWord(word_object: $word_object) {
       id
       word
     }

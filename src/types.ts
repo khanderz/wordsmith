@@ -1,5 +1,5 @@
 export interface Definition {
-  id: string;
+  id?: string;
   word: string;
   phonetic: string;
   phonetics: Phonetics[];
@@ -9,16 +9,25 @@ export interface Definition {
   title?: string;
 }
 
-export type Phonetics = {
-  id: string;
-  audio: string;
+export interface DefinitionInsert {
+  word: string;
+  phonetic: string;
+  phonetics: Phonetics;
   license: License;
-  sourceUrl: string;
-  text: string;
+  word_meanings: Meanings[];
+  word_source_urls: string[];
+}
+
+export type Phonetics = {
+  id?: string;
+  audio?: string;
+  license?: License;
+  sourceUrl?: string;
+  text?: string;
 };
 
 export type License = {
-  id: string;
+  id?: string;
   name: string;
   url: string;
 };
@@ -37,15 +46,15 @@ export type PartOfSpeech =
   | "suffix";
 
 export type Meanings = {
-  id: string;
+  id?: string;
   partOfSpeech: PartOfSpeech;
   definitions: Definitions[];
-  antonyms: string[];
-  synonyms: string[];
+  antonyms?: string[];
+  synonyms?: string[];
 };
 
 export type Definitions = {
-  id: string;
+  id?: string;
   definition: string;
   synonyms: string[];
   antonyms: string[];
@@ -55,4 +64,14 @@ export type WordList = {
   id: string;
   title: string;
   words: Definition[];
+};
+
+export type WordInsertInput = {
+  wordName: string;
+  wordPhonetic: string;
+  wordPhonetics: Phonetics[];
+  wordLicense: License;
+  wordSourceUrls: string[];
+  wordMeanings: Meanings[];
+  wordDefinitions: Definitions[];
 };

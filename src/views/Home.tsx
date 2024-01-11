@@ -14,14 +14,15 @@ import * as React from "react";
 
 import { Database } from "../../supabase/database.types";
 import { supabase } from "../clients/supabase";
-import { Definition } from "../types";
+import { useInsertWordMutation } from "../db/hooks";
+import { Definition, DefinitionInsert, Meanings } from "../types";
 import { useDictSearch } from "../utils/useDictSearch";
 
 export const HomeScreen = () => {
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null);
   const [words, setWords] = React.useState<QueryData<Database> | null>(null);
-
+  console.log({ words });
   React.useEffect(() => {
     const fetchWords = async () => {
       const { data, error } = await supabase.from("word").select("*");
@@ -38,9 +39,6 @@ export const HomeScreen = () => {
     };
     fetchWords();
   }, []);
-
-  // supabase mutation
-  const handleSubmit = async () => {};
 
   // utils
   const toast = useToast();
@@ -82,6 +80,52 @@ export const HomeScreen = () => {
     handleWordToSearch(index);
   };
 
+  const handleInsert = async (def: any) => {
+    const definitionObject = {} as DefinitionInsert;
+    const meaningsArray = [] as Meanings[];
+
+    for (let i = 0; i < def.length; i++) {
+      const { license, meanings, phonetic, phonetics, sourceUrls, word } =
+        def[i];
+
+      const { name, url } = license;
+      const { phonName, phonUrl } = phonetics[0].license;
+      const sourceUrlPhonetics = phonetics[0].sourceUrl;
+      const text = phonetics[0].text;
+      const audio = phonetics[0].audio;
+
+      definitionObject.license = { name, url };
+      definitionObject.word_source_urls = sourceUrls;
+      definitionObject.phonetic = phonetic;
+      definitionObject.phonetics = {
+        license: { name: phonName, url: phonUrl },
+        sourceUrl: sourceUrlPhonetics,
+        text,
+        audio,
+      };
+      definitionObject.word = word;
+
+      for (let j = 0; j < meanings.length; j++) {
+        const { definitions, partOfSpeech, antonyms, synonyms } = meanings[j];
+        meaningsArray.push({ definitions, partOfSpeech, antonyms, synonyms });
+        for (let k = 0; k < definitions.length; k++) {
+          const { definition, defSynonyms, defAntonyms } = definitions[k];
+          meaningsArray[j].definitions[k].definition = definition;
+          meaningsArray[j].definitions[k].synonyms = defSynonyms;
+          meaningsArray[j].definitions[k].antonyms = defAntonyms;
+        }
+      }
+    }
+
+    definitionObject.word_meanings = meaningsArray;
+
+    const { data, error } = await supabase
+      .from("definition")
+      .insert(definitionObject);
+
+    console.log({ data, error });
+  };
+
   const handleWordToSearch = async (index: number) => {
     const wordToSearch = list[index];
     const def: Definition[] | Definition =
@@ -94,6 +138,8 @@ export const HomeScreen = () => {
     } else {
       setModalVisible(true);
       setDefinition(def);
+      console.log({ def });
+      handleInsert(def);
     }
   };
 
