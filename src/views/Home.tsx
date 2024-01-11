@@ -7,7 +7,7 @@ import { Database } from '../../supabase/database.types';
 import { QueryResult, QueryData, QueryError } from '@supabase/supabase-js'
 
 export const HomeScreen = () => {
-// supabase
+// supabase fetch
 const [fetchError, setFetchError] = React.useState<QueryError | null>(null);
 const [words, setWords] = React.useState<QueryData<Database> | null>(null);
 
@@ -17,6 +17,7 @@ React.useEffect(() => {
       if (error) {
         setFetchError(error)
         setWords(null)
+        console.log(fetchError)
         return
       }
       if (data) {
@@ -27,6 +28,7 @@ React.useEffect(() => {
   fetchWords()
 }, [])
 
+// supabase mutation 
  const handleSubmit = async () => {
  }
 
