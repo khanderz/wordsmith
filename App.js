@@ -5,24 +5,9 @@ import {Title} from 'react-native-paper';
 import { BottomNavigationBar } from './src/components/BottomNavigationBar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NativeBaseProvider } from 'native-base';
-import 'react-native-url-polyfill/auto';
-import { createClient } from "@supabase/supabase-js";
 
 export default function App() {
-  const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY
 
-  const supabase = createClient(supabaseUrl, supabaseKey)
-
-
-  // useEffect(() => {
-  //   getCountries();
-  // }, []);
-
-  // async function getCountries() {
-  //   const { data } = await supabase.from("countries").select();
-  //   setCountries(data);
-  // }
 
   return (
     <SafeAreaProvider>

@@ -2,8 +2,34 @@ import * as React from 'react';
 import { Box, Flex, Input, Text, Button, VStack, HStack, useToast, Modal } from 'native-base';
 import { useDictSearch } from '../utils/useDictSearch';
 import { Definition } from '../types';
+import { supabase } from '../lib/supabase';
+import { Database } from '../../supabase/database.types';
+import { QueryResult, QueryData, QueryError } from '@supabase/supabase-js'
 
 export const HomeScreen = () => {
+// supabase
+const [fetchError, setFetchError] = React.useState<QueryError | null>(null);
+const [words, setWords] = React.useState<QueryData<Database> | null>(null);
+
+React.useEffect(() => {
+  const fetchWords = async () => {
+    const { data, error } = await supabase.from('word').select('*')
+      if (error) {
+        setFetchError(error)
+        setWords(null)
+        return
+      }
+      if (data) {
+        setWords(data as QueryData<Database>)
+        setFetchError(null)
+      }
+  };
+  fetchWords()
+}, [])
+
+ const handleSubmit = async () => {
+ }
+
   // utils
   const toast = useToast();
   const fetchDict = useDictSearch();
