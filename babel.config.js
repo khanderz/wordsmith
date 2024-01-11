@@ -1,6 +1,6 @@
 module.exports = function (api) {
-  api.cache(true);
-  const disableImportExportTransform = true;
+  api.cache(true)
+  const disableImportExportTransform = true
   return {
     presets: [
       [
@@ -20,5 +20,5 @@ module.exports = function (api) {
         plugins: ['react-native-paper/babel'],
       },
     },
-  };
-};
+  }
+}

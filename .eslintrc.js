@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ["universe/native", "prettier"],
-};
+  extends: ['universe/native', 'prettier'],
+}
