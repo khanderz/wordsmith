@@ -54,3 +54,9 @@ type Meanings {
   antonyms: [String]
   synonyms: [String]
 }
+
+type WordList {
+  id: ID!
+  title: String!
+  words: [Definition]
+}

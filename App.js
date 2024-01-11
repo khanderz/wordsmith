@@ -6,8 +6,8 @@ import { StyleSheet, View } from "react-native";
 import { Title } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import apolloClient from "./src/clients/apollo";
 import { BottomNavigationBar } from "./src/components/BottomNavigationBar";
-import apolloClient from "./src/graphql/apolloClient";
 
 export default function App() {
   return (
