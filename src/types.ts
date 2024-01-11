@@ -18,6 +18,19 @@ export interface DefinitionInsert {
   word_source_urls: string[];
 }
 
+export interface MeaningsInsert {
+  meanings_partofspeech: PartOfSpeech;
+  meanings_definitions: DefinitionsInsert[];
+  meanings_synonyms: Meanings["synonyms"];
+  meanings_antonyms: Meanings["antonyms"];
+}
+
+export interface DefinitionsInsert {
+  definition: Definitions["definition"];
+  definition_synonyms: Definitions["synonyms"];
+  definition_antonyms: Definitions["antonyms"];
+}
+
 export type Phonetics = {
   id?: string;
   audio?: string;

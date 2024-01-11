@@ -15,7 +15,12 @@ import * as React from "react";
 import { Database } from "../../supabase/database.types";
 import { supabase } from "../clients/supabase";
 import { useInsertWordMutation } from "../db/hooks";
-import { Definition, DefinitionInsert, Meanings } from "../types";
+import {
+  Definition,
+  DefinitionInsert,
+  Meanings,
+  MeaningsInsert,
+} from "../types";
 import { useDictSearch } from "../utils/useDictSearch";
 
 export const HomeScreen = () => {
@@ -82,7 +87,7 @@ export const HomeScreen = () => {
 
   const handleInsert = async (def: any) => {
     const definitionObject = {} as DefinitionInsert;
-    const meaningsArray = [] as Meanings[];
+    const meaningsArray = [] as MeaningsInsert[];
 
     for (let i = 0; i < def.length; i++) {
       const { license, meanings, phonetic, phonetics, sourceUrls, word } =
