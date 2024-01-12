@@ -99,14 +99,15 @@ export const HomeScreen = () => {
       const text = phonetics[0].text
       const audio = phonetics[0].audio
 
-      definitionObject.license = { name, url }
+      definitionObject.license = { name, url, word }
       definitionObject.word_source_urls = sourceUrls
       definitionObject.phonetic = phonetic
       definitionObject.phonetics = {
-        license: { name: phonName, url: phonUrl },
+        license: { name: phonName, url: phonUrl, word },
         sourceUrl: sourceUrlPhonetics,
         text,
         audio,
+        word,
       }
       definitionObject.word = word
 
@@ -117,6 +118,7 @@ export const HomeScreen = () => {
           meanings_antonyms: antonyms,
           meanings_synonyms: synonyms,
           meanings_definitions: [],
+          word,
         })
         for (let k = 0; k < definitions.length; k++) {
           const { definition, defSynonyms, defAntonyms } = definitions[k]
@@ -134,6 +136,9 @@ export const HomeScreen = () => {
     const { data, error } = await supabase
       .from('definition')
       .insert(definitionObject)
+
+    await supabase.from('meanings').insert(meaningsArray)
+    await supabase.from('phonetics').insert(definitionObject.phonetics)
 
     console.log({ data, error })
   }

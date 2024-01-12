@@ -10,7 +10,7 @@ export interface Definition {
 }
 
 export interface DefinitionInsert {
-  word: string
+  word: Definition['word']
   phonetic: string
   phonetics: Phonetics
   license: License
@@ -19,6 +19,7 @@ export interface DefinitionInsert {
 }
 
 export interface MeaningsInsert {
+  word: Definition['word']
   meanings_partofspeech: PartOfSpeech
   meanings_definitions: DefinitionsInsert[]
   meanings_synonyms: Meanings['synonyms']
@@ -33,6 +34,7 @@ export interface DefinitionsInsert {
 
 export type Phonetics = {
   id?: string
+  word: Definition['word']
   audio?: string
   license?: License
   sourceUrl?: string
@@ -42,6 +44,7 @@ export type Phonetics = {
 export type License = {
   id?: string
   name: string
+  word: Definition['word']
   url: string
 }
 
@@ -60,6 +63,7 @@ export type PartOfSpeech =
 
 export type Meanings = {
   id?: string
+  word: Definition['word']
   partOfSpeech: PartOfSpeech
   definitions: Definitions[]
   antonyms?: string[]
@@ -68,7 +72,7 @@ export type Meanings = {
 
 export type Definitions = {
   id?: string
-  definition: string
+  definition: Definition['word']
   synonyms: string[]
   antonyms: string[]
 }
@@ -80,7 +84,7 @@ export type WordList = {
 }
 
 export type WordInsertInput = {
-  wordName: string
+  wordName: Definition['word']
   wordPhonetic: string
   wordPhonetics: Phonetics[]
   wordLicense: License
