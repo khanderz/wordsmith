@@ -1,4 +1,4 @@
-import { QueryResult, QueryData, QueryError } from "@supabase/supabase-js";
+import { QueryResult, QueryData, QueryError } from '@supabase/supabase-js'
 import {
   Box,
   Flex,
@@ -9,144 +9,151 @@ import {
   HStack,
   useToast,
   Modal,
-} from "native-base";
-import * as React from "react";
+} from 'native-base'
+import * as React from 'react'
 
-import { Database } from "../../supabase/database.types";
-import { supabase } from "../clients/supabase";
-import { useInsertWordMutation } from "../db/hooks";
+import { Database } from '../../supabase/database.types'
+import { supabase } from '../clients/supabase'
+import { useInsertWordMutation } from '../db/hooks'
 import {
   Definition,
   DefinitionInsert,
   Meanings,
   MeaningsInsert,
-} from "../types";
-import { useDictSearch } from "../utils/useDictSearch";
+} from '../types'
+import { useDictSearch } from '../utils/useDictSearch'
 
 export const HomeScreen = () => {
   // supabase fetch
-  const [fetchError, setFetchError] = React.useState<QueryError | null>(null);
-  const [words, setWords] = React.useState<QueryData<Database> | null>(null);
-  console.log({ words });
+  const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
+  const [words, setWords] = React.useState<QueryData<Database> | null>(null)
+  console.log({ words })
   React.useEffect(() => {
     const fetchWords = async () => {
-      const { data, error } = await supabase.from("word").select("*");
+      const { data, error } = await supabase.from('word').select('*')
       if (error) {
-        setFetchError(error);
-        setWords(null);
-        console.log(fetchError);
-        return;
+        setFetchError(error)
+        setWords(null)
+        console.log(fetchError)
+        return
       }
       if (data) {
-        setWords(data as QueryData<Database>);
-        setFetchError(null);
+        setWords(data as QueryData<Database>)
+        setFetchError(null)
       }
-    };
-    fetchWords();
-  }, []);
+    }
+    fetchWords()
+  }, [])
 
   // utils
-  const toast = useToast();
-  const fetchDict = useDictSearch();
+  const toast = useToast()
+  const fetchDict = useDictSearch()
 
   // definitions
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible, setModalVisible] = React.useState(false)
   const [definition, setDefinition] = React.useState<Definition[] | Definition>(
     [],
-  );
+  )
 
   // word list
-  const [list, setList] = React.useState([]);
-  const [inputValue, setInputValue] = React.useState("");
+  const [list, setList] = React.useState([])
+  const [inputValue, setInputValue] = React.useState('')
 
   // handles
   const addItem = (title) => {
-    const isExist = list.find((item) => item === title);
+    const isExist = list.find((item) => item === title)
     if (isExist) {
       toast.show({
-        title: "Word Already Exists",
-      });
-      return;
+        title: 'Word Already Exists',
+      })
+      return
     }
 
-    if (title === "") {
+    if (title === '') {
       toast.show({
-        title: "Please Enter Text",
-      });
-      return;
+        title: 'Please Enter Text',
+      })
+      return
     }
 
     setList((prevList) => {
-      return [...prevList, title];
-    });
-  };
+      return [...prevList, title]
+    })
+  }
 
   const handleDefinitionButton = (index: number) => {
-    handleWordToSearch(index);
-  };
+    handleWordToSearch(index)
+  }
 
   const handleInsert = async (def: any) => {
-    const definitionObject = {} as DefinitionInsert;
-    const meaningsArray = [] as MeaningsInsert[];
+    const definitionObject = {} as DefinitionInsert
+    const meaningsArray = [] as MeaningsInsert[]
 
     for (let i = 0; i < def.length; i++) {
       const { license, meanings, phonetic, phonetics, sourceUrls, word } =
-        def[i];
+        def[i]
 
-      const { name, url } = license;
-      const { phonName, phonUrl } = phonetics[0].license;
-      const sourceUrlPhonetics = phonetics[0].sourceUrl;
-      const text = phonetics[0].text;
-      const audio = phonetics[0].audio;
+      const { name, url } = license
+      const { phonName, phonUrl } = phonetics[0].license
+      const sourceUrlPhonetics = phonetics[0].sourceUrl
+      const text = phonetics[0].text
+      const audio = phonetics[0].audio
 
-      definitionObject.license = { name, url };
-      definitionObject.word_source_urls = sourceUrls;
-      definitionObject.phonetic = phonetic;
+      definitionObject.license = { name, url }
+      definitionObject.word_source_urls = sourceUrls
+      definitionObject.phonetic = phonetic
       definitionObject.phonetics = {
         license: { name: phonName, url: phonUrl },
         sourceUrl: sourceUrlPhonetics,
         text,
         audio,
-      };
-      definitionObject.word = word;
+      }
+      definitionObject.word = word
 
       for (let j = 0; j < meanings.length; j++) {
-        const { definitions, partOfSpeech, antonyms, synonyms } = meanings[j];
-        meaningsArray.push({ definitions, partOfSpeech, antonyms, synonyms });
+        const { definitions, partOfSpeech, antonyms, synonyms } = meanings[j]
+        meaningsArray.push({
+          meanings_partofspeech: partOfSpeech,
+          meanings_antonyms: antonyms,
+          meanings_synonyms: synonyms,
+          meanings_definitions: [],
+        })
         for (let k = 0; k < definitions.length; k++) {
-          const { definition, defSynonyms, defAntonyms } = definitions[k];
-          meaningsArray[j].definitions[k].definition = definition;
-          meaningsArray[j].definitions[k].synonyms = defSynonyms;
-          meaningsArray[j].definitions[k].antonyms = defAntonyms;
+          const { definition, defSynonyms, defAntonyms } = definitions[k]
+          meaningsArray[j].meanings_definitions.push({
+            definition,
+            definition_synonyms: defSynonyms,
+            definition_antonyms: defAntonyms,
+          })
         }
       }
     }
 
-    definitionObject.word_meanings = meaningsArray;
+    definitionObject.word_meanings = meaningsArray
 
     const { data, error } = await supabase
-      .from("definition")
-      .insert(definitionObject);
+      .from('definition')
+      .insert(definitionObject)
 
-    console.log({ data, error });
-  };
+    console.log({ data, error })
+  }
 
   const handleWordToSearch = async (index: number) => {
-    const wordToSearch = list[index];
+    const wordToSearch = list[index]
     const def: Definition[] | Definition =
-      await fetchDict.fetchDict(wordToSearch);
+      await fetchDict.fetchDict(wordToSearch)
 
-    if ((def as Definition).title === "No Definitions Found") {
+    if ((def as Definition).title === 'No Definitions Found') {
       toast.show({
-        title: "No Definitions Found",
-      });
+        title: 'No Definitions Found',
+      })
     } else {
-      setModalVisible(true);
-      setDefinition(def);
-      console.log({ def });
-      handleInsert(def);
+      setModalVisible(true)
+      setDefinition(def)
+      console.log({ def })
+      handleInsert(def)
     }
-  };
+  }
 
   return (
     <Flex
@@ -170,8 +177,8 @@ export const HomeScreen = () => {
           aria-label="add-button"
           m={1}
           onPress={() => {
-            addItem(inputValue);
-            setInputValue("");
+            addItem(inputValue)
+            setInputValue('')
           }}
         >
           Add
@@ -231,5 +238,5 @@ export const HomeScreen = () => {
         </Modal.Content>
       </Modal>
     </Flex>
-  );
-};
+  )
+}
