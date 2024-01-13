@@ -14,23 +14,20 @@ import * as React from 'react'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
-import { useInsertWordMutation } from '../db/hooks'
-import {
-  Definition,
-  DefinitionInsert,
-  Meanings,
-  MeaningsInsert,
-} from '../types'
+import { Definition, DefinitionInsert, MeaningsInsert } from '../types'
+import { UseDictMapper } from '../utils/useDictMapper'
 import { useDictSearch } from '../utils/useDictSearch'
+import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 
 export const HomeScreen = () => {
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
   const [words, setWords] = React.useState<QueryData<Database> | null>(null)
   console.log({ words })
+
   React.useEffect(() => {
     const fetchWords = async () => {
-      const { data, error } = await supabase.from('word').select('*')
+      const { data, error } = await supabase.from('definition').select('*')
       if (error) {
         setFetchError(error)
         setWords(null)
@@ -85,80 +82,22 @@ export const HomeScreen = () => {
     handleWordToSearch(index)
   }
 
-  const handleInsert = async (def: any) => {
-    const definitionObject = {} as DefinitionInsert
-    const meaningsArray = [] as MeaningsInsert[]
+  const handleInsert = async (def: Definition[]) => {
+    const { definitionObject, meaningsArray, definitionsMapped } =
+      UseDictMapper({ def })
 
-    for (let i = 0; i < def.length; i++) {
-      const { license, meanings, phonetic, phonetics, sourceUrls, word } =
-        def[i]
-
-      const { name, url } = license
-      const { phonName, phonUrl } = phonetics[0].license || phonetics[1].license
-      const sourceUrlPhonetics = phonetics[0].sourceUrl
-      const text = phonetics[0].text
-      const audio = phonetics[0].audio
-
-      definitionObject.license = { name, url, word }
-      definitionObject.word_source_urls = sourceUrls
-      definitionObject.phonetic = phonetic
-      definitionObject.phonetics = {
-        phonetics_license: { name: phonName, url: phonUrl, word },
-        phonetics_source_url: sourceUrlPhonetics,
-        phonetics_text: text,
-        phonetics_audio: audio,
-        word,
-      }
-      definitionObject.word = word
-
-      for (let j = 0; j < meanings.length; j++) {
-        const { definitions, partOfSpeech, antonyms, synonyms } = meanings[j]
-        meaningsArray.push({
-          meanings_partofspeech: partOfSpeech,
-          meanings_antonyms: antonyms,
-          meanings_synonyms: synonyms,
-          meanings_definitions: [],
-          word,
-        })
-        for (let k = 0; k < definitions.length; k++) {
-          const { definition, defSynonyms, defAntonyms } = definitions[k]
-          meaningsArray[j].meanings_definitions.push({
-            word,
-            definition,
-            definition_synonyms: defSynonyms,
-            definition_antonyms: defAntonyms,
-          })
-        }
-      }
-    }
-
-    definitionObject.word_meanings = meaningsArray
-
-    const definitionsMapped = meaningsArray
-      .map((item) => item.meanings_definitions)
-      .flat()
-
-    const { data, error } = await supabase
-      .from('definition')
-      .insert(definitionObject)
-
-    await supabase.from('meanings').insert(meaningsArray)
-    await supabase.from('phonetics').insert(definitionObject.phonetics)
-    await supabase.from('license').insert(definitionObject.license)
-    await supabase
-      .from('license')
-      .insert(definitionObject.phonetics.phonetics_license)
-    await supabase.from('definitions').insert(definitionsMapped)
-
-    console.log({ data, error })
+    UseInsertDefToTable({
+      definitionObject,
+      meaningsArray,
+      definitionsMapped,
+    })
   }
 
   const handleWordToSearch = async (index: number) => {
     const wordToSearch = list[index]
-    const def: Definition[] | Definition =
-      await fetchDict.fetchDict(wordToSearch)
+    const def: Definition[] = await fetchDict.fetchDict(wordToSearch)
 
-    if ((def as Definition).title === 'No Definitions Found') {
+    if ((def as Definition[])[0].title === 'No Definitions Found') {
       toast.show({
         title: 'No Definitions Found',
       })
