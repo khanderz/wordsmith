@@ -1,20 +1,8 @@
-import * as React from 'react'
+export const fetchDict = async (word: string) => {
+  const response = await fetch(
+    `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
+  )
+  const data = await response.json()
 
-interface DictSearchProps {
-  word: string
-}
-
-export const useDictSearch = () => {
-  const fetchDict = async (word: string) => {
-    const response = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
-    )
-    const data = await response.json()
-
-    return data
-  }
-
-  return {
-    fetchDict,
-  }
+  return data
 }

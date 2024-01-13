@@ -16,39 +16,42 @@ import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
 import { Definition } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
-import { useDictSearch } from '../utils/useDictSearch'
+import { fetchDict } from '../utils/useDictSearch'
 import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 
 export const HomeScreen = () => {
   // utils
   const toast = useToast()
-  const fetchDict = useDictSearch()
 
   // definitions
   const [modalVisible, setModalVisible] = React.useState(false)
   const [definition, setDefinition] = React.useState<Definition[] | Definition>(
     [],
   )
+
+  console.log({ definition })
   // word list
   const [list, setList] = React.useState<Definition[] | Definition>([])
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
+  const [word, setWord] = React.useState<Definition[] | Definition>([])
+  console.log({ list })
 
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
-  const [words, setWords] = React.useState<QueryData<Database> | null>(null)
-  console.log({ words, list })
+  // const [words, setWords] = React.useState<QueryData<Database> | null>(null)
+
   const fetchWords = async () => {
     const { data, error } = await supabase.from('definition').select('*')
     if (error) {
       setFetchError(error)
-      setWords(null)
-      console.log(fetchError)
+      setList(null)
+      // console.log(fetchError)
       return
     }
     if (data) {
-      setWords(data as QueryData<Database>)
+      setList(data as QueryData<Database>)
+      setWord(data as QueryData<Database>)
       setFetchError(null)
-      setList(data)
     }
   }
   React.useEffect(() => {
@@ -56,9 +59,9 @@ export const HomeScreen = () => {
   }, [])
 
   // handles
-  const addItem = (title: Definition['title']) => {
+  const addWord = (word: Definition['word']) => {
     const isExist = (list as Definition[])?.find(
-      (item: Definition) => item.word === title,
+      (item: Definition) => item.word === word,
     )
     if (isExist) {
       toast.show({
@@ -67,7 +70,7 @@ export const HomeScreen = () => {
       return
     }
 
-    if (title === '') {
+    if (word === '') {
       toast.show({
         title: 'Please Enter Text',
       })
@@ -75,12 +78,8 @@ export const HomeScreen = () => {
     }
 
     setList((prevList: Definition) => {
-      return [{ ...prevList, title }]
+      return [{ ...prevList, word }]
     })
-  }
-
-  const handleDefinitionButton = (index: number) => {
-    handleWordToSearch(index)
   }
 
   const handleInsert = async (def: Definition[]) => {
@@ -96,18 +95,31 @@ export const HomeScreen = () => {
 
   const handleWordToSearch = async (index: number) => {
     const wordToSearch = list[index]
-    const def: Definition[] = await fetchDict.fetchDict(wordToSearch)
+    console.log({ wordToSearch })
 
-    if ((def as Definition[])[0].title === 'No Definitions Found') {
-      toast.show({
-        title: 'No Definitions Found',
-      })
-    } else {
+    const wordInList = (word as Definition[])?.find(
+      (item: Definition) => item.word === wordToSearch.word,
+    )
+    if (wordInList) {
+      setDefinition(wordInList)
       setModalVisible(true)
-      setDefinition(def)
+    } else {
+      const def: Definition[] = await fetchDict(wordToSearch.word)
       console.log({ def })
-      handleInsert(def)
+      if ((def as Definition[])[0].title === 'No Definitions Found') {
+        toast.show({
+          title: 'No Definitions Found',
+        })
+      } else {
+        setModalVisible(true)
+        setDefinition(def)
+        handleInsert(def)
+      }
     }
+  }
+
+  const handleDefinitionButton = (index: number) => {
+    handleWordToSearch(index)
   }
 
   return (
@@ -132,7 +144,7 @@ export const HomeScreen = () => {
           aria-label="add-button"
           m={1}
           onPress={() => {
-            addItem(inputValue)
+            addWord(inputValue)
             setInputValue('')
           }}
         >
@@ -141,30 +153,33 @@ export const HomeScreen = () => {
       </Box>
 
       <VStack space={2}>
-        {(list as Definition[])?.map((item, index) => (
-          <HStack
-            key={index}
-            w="100%"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Text
+        {(list as Definition[])?.map((item, index) => {
+          // console.log({ item, index })
+          return (
+            <HStack
               key={index}
-              aria-label={`vocab-word-${index}`}
-              textAlign="left"
-              margin={1}
+              w="100%"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              {item.word}
-            </Text>
-            <Button
-              aria-label="definition-button"
-              size="sm"
-              onPress={() => handleDefinitionButton(index)}
-            >
-              See definition
-            </Button>
-          </HStack>
-        ))}
+              <Text
+                key={index}
+                aria-label={`vocab-word-${index}`}
+                textAlign="left"
+                margin={1}
+              >
+                {item.word}
+              </Text>
+              <Button
+                aria-label="definition-button"
+                size="sm"
+                onPress={() => handleDefinitionButton(index)}
+              >
+                See definition
+              </Button>
+            </HStack>
+          )
+        })}
       </VStack>
       <Modal
         aria-label="definition-modal"
@@ -176,9 +191,7 @@ export const HomeScreen = () => {
           <Modal.Header>Definition</Modal.Header>
           <Modal.Body>
             <VStack space={2}>
-              {// words
-              //   ?
-              (definition as Definition[])?.map(
+              {(definition as Definition[])?.map(
                 (item, definitionIndex) =>
                   item.meanings?.map(
                     (meaning, meaningIndex) =>
@@ -186,15 +199,7 @@ export const HomeScreen = () => {
                         (def, defIndex) => def?.definition,
                       ),
                   ),
-              )
-              // : (definition as Definition[]).map((item, definitionIndex) =>
-              //     item.meanings.map((meaning, meaningIndex) =>
-              //       meaning.definitions.map(
-              //         (def, defIndex) => def.definition,
-              //       ),
-              //     ),
-              //   )
-              }
+              )}
             </VStack>
           </Modal.Body>
         </Modal.Content>
