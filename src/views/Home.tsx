@@ -1,4 +1,4 @@
-import { QueryResult, QueryData, QueryError } from '@supabase/supabase-js'
+import { QueryData, QueryError } from '@supabase/supabase-js'
 import {
   Box,
   Flex,
@@ -21,9 +21,9 @@ import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 import { UseIsWordInDb } from '../utils/useIsWordInDb'
 
 let IsWordInDb = undefined
+let wordToSearchVar = undefined
 
 export const HomeScreen = () => {
-  console.log({ IsWordInDb })
   // utils
   const toast = useToast()
 
@@ -32,11 +32,12 @@ export const HomeScreen = () => {
   const [definition, setDefinition] = React.useState<
     Definition[] | Definition | DefinitionInsert
   >([])
-  console.log({ definition })
+
   // word list
   const [list, setList] = React.useState<Definition[] | Definition>([])
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
   const [word, setWord] = React.useState<Definition[] | Definition>([])
+
   console.log({ list, word })
 
   // supabase fetch
@@ -63,6 +64,11 @@ export const HomeScreen = () => {
 
   // handles
   const addWord = (word: Definition['word']) => {
+    const { wordInList, wordToSearch } = UseIsWordInDb({ list, word })
+
+    IsWordInDb = !!wordInList
+    wordToSearchVar = wordToSearch
+
     const isExist = (list as Definition[])?.find(
       (item: Definition) => item.word === word,
     )
@@ -81,7 +87,13 @@ export const HomeScreen = () => {
     }
 
     setList((prevList: Definition) => {
-      return [{ ...prevList, word }]
+      return [
+        //@ts-ignore
+        ...prevList,
+        {
+          word,
+        },
+      ]
     })
   }
 
@@ -96,16 +108,12 @@ export const HomeScreen = () => {
     })
   }
 
-  const handleWordToSearch = async (index: number) => {
-    const { wordInList, wordToSearch } = UseIsWordInDb({ index, list, word })
-
-    IsWordInDb = !!wordInList
-
-    if (wordInList) {
-      setDefinition(wordInList)
+  const handleWordToSearch = async () => {
+    if (IsWordInDb) {
+      setDefinition(IsWordInDb)
       setModalVisible(true)
     } else {
-      const def: Definition[] = await fetchDict(wordToSearch.word)
+      const def: Definition[] = await fetchDict(wordToSearchVar)
 
       if ((def as Definition[])[0].title === 'No Definitions Found') {
         toast.show({
@@ -119,8 +127,8 @@ export const HomeScreen = () => {
     }
   }
 
-  const handleDefinitionButton = (index: number) => {
-    handleWordToSearch(index)
+  const handleDefinitionButton = () => {
+    handleWordToSearch()
   }
 
   return (
@@ -155,7 +163,6 @@ export const HomeScreen = () => {
 
       <VStack space={2}>
         {(list as Definition[])?.map((item, index) => {
-          // console.log({ item, index })
           return (
             <HStack
               key={index}
@@ -174,7 +181,7 @@ export const HomeScreen = () => {
               <Button
                 aria-label="definition-button"
                 size="sm"
-                onPress={() => handleDefinitionButton(index)}
+                onPress={() => handleDefinitionButton()}
               >
                 See definition
               </Button>

@@ -1,17 +1,17 @@
 import { Definition } from '../types'
 
 interface IsWordInDb {
-  index: number
   list: Definition[] | Definition
-  word: Definition[] | Definition
+  word: Definition['word']
 }
 
-export const UseIsWordInDb = ({ index, list, word }: IsWordInDb) => {
-  const wordToSearch = list[index]
+export const UseIsWordInDb = ({ list, word }: IsWordInDb) => {
+  const wordToSearch = word
   console.log({ wordToSearch })
 
-  const wordInList = (word as Definition[])?.find(
-    (item: Definition) => item.word === wordToSearch.word,
+  const wordInList = (list as Definition[])?.find(
+    (item: Definition) => item.word === wordToSearch,
   )
+
   return { wordInList, wordToSearch }
 }
