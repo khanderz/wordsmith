@@ -12,10 +12,18 @@ export interface Definition {
 export interface DefinitionInsert {
   word: Definition['word']
   phonetic: string
-  phonetics: Phonetics
+  phonetics: PhoneticsInsert
   license: License
   word_meanings: MeaningsInsert[]
   word_source_urls: string[]
+}
+
+export interface PhoneticsInsert {
+  word: Definition['word']
+  phonetics_license?: License
+  phonetics_source_url?: string
+  phonetics_text?: string
+  phonetics_audio?: string
 }
 
 export interface MeaningsInsert {
@@ -27,6 +35,7 @@ export interface MeaningsInsert {
 }
 
 export interface DefinitionsInsert {
+  word: Definition['word']
   definition: Definitions['definition']
   definition_synonyms: Definitions['synonyms']
   definition_antonyms: Definitions['antonyms']
@@ -91,4 +100,17 @@ export type WordInsertInput = {
   wordSourceUrls: string[]
   wordMeanings: Meanings[]
   wordDefinitions: Definitions[]
+}
+
+export type UserInsert = {
+  user_name: string
+  user_email: string
+  user_password: string
+  user_wordlist: WordList[]
+  user_favorite_words: Definition[]
+}
+
+export type WordlistInsert = {
+  wordlist_name: string
+  wordlist_words: Definition[]
 }

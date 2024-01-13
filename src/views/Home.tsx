@@ -94,7 +94,7 @@ export const HomeScreen = () => {
         def[i]
 
       const { name, url } = license
-      const { phonName, phonUrl } = phonetics[0].license
+      const { phonName, phonUrl } = phonetics[0].license || phonetics[1].license
       const sourceUrlPhonetics = phonetics[0].sourceUrl
       const text = phonetics[0].text
       const audio = phonetics[0].audio
@@ -103,10 +103,10 @@ export const HomeScreen = () => {
       definitionObject.word_source_urls = sourceUrls
       definitionObject.phonetic = phonetic
       definitionObject.phonetics = {
-        license: { name: phonName, url: phonUrl, word },
-        sourceUrl: sourceUrlPhonetics,
-        text,
-        audio,
+        phonetics_license: { name: phonName, url: phonUrl, word },
+        phonetics_source_url: sourceUrlPhonetics,
+        phonetics_text: text,
+        phonetics_audio: audio,
         word,
       }
       definitionObject.word = word
@@ -123,6 +123,7 @@ export const HomeScreen = () => {
         for (let k = 0; k < definitions.length; k++) {
           const { definition, defSynonyms, defAntonyms } = definitions[k]
           meaningsArray[j].meanings_definitions.push({
+            word,
             definition,
             definition_synonyms: defSynonyms,
             definition_antonyms: defAntonyms,
@@ -133,12 +134,21 @@ export const HomeScreen = () => {
 
     definitionObject.word_meanings = meaningsArray
 
+    const definitionsMapped = meaningsArray
+      .map((item) => item.meanings_definitions)
+      .flat()
+
     const { data, error } = await supabase
       .from('definition')
       .insert(definitionObject)
 
     await supabase.from('meanings').insert(meaningsArray)
     await supabase.from('phonetics').insert(definitionObject.phonetics)
+    await supabase.from('license').insert(definitionObject.license)
+    await supabase
+      .from('license')
+      .insert(definitionObject.phonetics.phonetics_license)
+    await supabase.from('definitions').insert(definitionsMapped)
 
     console.log({ data, error })
   }
