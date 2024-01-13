@@ -18,6 +18,7 @@ import { Definition } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
 import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
+import { UseIsWordInDb } from '../utils/useIsWordInDb'
 
 export const HomeScreen = () => {
   // utils
@@ -94,12 +95,9 @@ export const HomeScreen = () => {
   }
 
   const handleWordToSearch = async (index: number) => {
-    const wordToSearch = list[index]
-    console.log({ wordToSearch })
+    const { wordInList, wordToSearch } = UseIsWordInDb({ index, list, word })
 
-    const wordInList = (word as Definition[])?.find(
-      (item: Definition) => item.word === wordToSearch.word,
-    )
+    console.log({ wordInList })
     if (wordInList) {
       setDefinition(wordInList)
       setModalVisible(true)
