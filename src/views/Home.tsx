@@ -14,34 +14,12 @@ import * as React from 'react'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
-import { Definition, DefinitionInsert, MeaningsInsert } from '../types'
+import { Definition } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
 import { useDictSearch } from '../utils/useDictSearch'
 import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 
 export const HomeScreen = () => {
-  // supabase fetch
-  const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
-  const [words, setWords] = React.useState<QueryData<Database> | null>(null)
-  console.log({ words })
-
-  React.useEffect(() => {
-    const fetchWords = async () => {
-      const { data, error } = await supabase.from('definition').select('*')
-      if (error) {
-        setFetchError(error)
-        setWords(null)
-        console.log(fetchError)
-        return
-      }
-      if (data) {
-        setWords(data as QueryData<Database>)
-        setFetchError(null)
-      }
-    }
-    fetchWords()
-  }, [])
-
   // utils
   const toast = useToast()
   const fetchDict = useDictSearch()
@@ -51,14 +29,37 @@ export const HomeScreen = () => {
   const [definition, setDefinition] = React.useState<Definition[] | Definition>(
     [],
   )
-
   // word list
-  const [list, setList] = React.useState([])
-  const [inputValue, setInputValue] = React.useState('')
+  const [list, setList] = React.useState<Definition[] | Definition>([])
+  const [inputValue, setInputValue] = React.useState<Definition['title']>('')
+
+  // supabase fetch
+  const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
+  const [words, setWords] = React.useState<QueryData<Database> | null>(null)
+  console.log({ words, list })
+  const fetchWords = async () => {
+    const { data, error } = await supabase.from('definition').select('*')
+    if (error) {
+      setFetchError(error)
+      setWords(null)
+      console.log(fetchError)
+      return
+    }
+    if (data) {
+      setWords(data as QueryData<Database>)
+      setFetchError(null)
+      setList(data)
+    }
+  }
+  React.useEffect(() => {
+    fetchWords()
+  }, [])
 
   // handles
-  const addItem = (title) => {
-    const isExist = list.find((item) => item === title)
+  const addItem = (title: Definition['title']) => {
+    const isExist = (list as Definition[])?.find(
+      (item: Definition) => item.word === title,
+    )
     if (isExist) {
       toast.show({
         title: 'Word Already Exists',
@@ -73,8 +74,8 @@ export const HomeScreen = () => {
       return
     }
 
-    setList((prevList) => {
-      return [...prevList, title]
+    setList((prevList: Definition) => {
+      return [{ ...prevList, title }]
     })
   }
 
@@ -140,7 +141,7 @@ export const HomeScreen = () => {
       </Box>
 
       <VStack space={2}>
-        {list.map((item, index) => (
+        {(list as Definition[])?.map((item, index) => (
           <HStack
             key={index}
             w="100%"
@@ -153,7 +154,7 @@ export const HomeScreen = () => {
               textAlign="left"
               margin={1}
             >
-              {item}
+              {item.word}
             </Text>
             <Button
               aria-label="definition-button"
@@ -175,19 +176,26 @@ export const HomeScreen = () => {
           <Modal.Header>Definition</Modal.Header>
           <Modal.Body>
             <VStack space={2}>
-              {(definition as Definition[]).map((item, definitionIndex) =>
-                item.meanings.map((meaning, meaningIndex) =>
-                  meaning.definitions.map((def, defIndex) => def.definition),
-                ),
-              )}
+              {// words
+              //   ?
+              (definition as Definition[])?.map(
+                (item, definitionIndex) =>
+                  item.meanings?.map(
+                    (meaning, meaningIndex) =>
+                      meaning?.definitions?.map(
+                        (def, defIndex) => def?.definition,
+                      ),
+                  ),
+              )
+              // : (definition as Definition[]).map((item, definitionIndex) =>
+              //     item.meanings.map((meaning, meaningIndex) =>
+              //       meaning.definitions.map(
+              //         (def, defIndex) => def.definition,
+              //       ),
+              //     ),
+              //   )
+              }
             </VStack>
-            {/* {definition.map((item, index) => {
-                        item.meanings.map((meaning, index) => {
-                          meaning.definitions.map((def, index) => 
-                          def.definition
-                        )
-                      }
-                      )})} */}
           </Modal.Body>
         </Modal.Content>
       </Modal>
