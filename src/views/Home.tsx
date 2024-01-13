@@ -14,28 +14,30 @@ import * as React from 'react'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
-import { Definition } from '../types'
+import { Definition, DefinitionInsert } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
 import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 import { UseIsWordInDb } from '../utils/useIsWordInDb'
 
+let IsWordInDb = undefined
+
 export const HomeScreen = () => {
+  console.log({ IsWordInDb })
   // utils
   const toast = useToast()
 
   // definitions
   const [modalVisible, setModalVisible] = React.useState(false)
-  const [definition, setDefinition] = React.useState<Definition[] | Definition>(
-    [],
-  )
-
+  const [definition, setDefinition] = React.useState<
+    Definition[] | Definition | DefinitionInsert
+  >([])
   console.log({ definition })
   // word list
   const [list, setList] = React.useState<Definition[] | Definition>([])
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
   const [word, setWord] = React.useState<Definition[] | Definition>([])
-  console.log({ list })
+  console.log({ list, word })
 
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
@@ -46,7 +48,7 @@ export const HomeScreen = () => {
     if (error) {
       setFetchError(error)
       setList(null)
-      // console.log(fetchError)
+      console.log(fetchError)
       return
     }
     if (data) {
@@ -97,13 +99,14 @@ export const HomeScreen = () => {
   const handleWordToSearch = async (index: number) => {
     const { wordInList, wordToSearch } = UseIsWordInDb({ index, list, word })
 
-    console.log({ wordInList })
+    IsWordInDb = !!wordInList
+
     if (wordInList) {
       setDefinition(wordInList)
       setModalVisible(true)
     } else {
       const def: Definition[] = await fetchDict(wordToSearch.word)
-      console.log({ def })
+
       if ((def as Definition[])[0].title === 'No Definitions Found') {
         toast.show({
           title: 'No Definitions Found',
@@ -189,15 +192,22 @@ export const HomeScreen = () => {
           <Modal.Header>Definition</Modal.Header>
           <Modal.Body>
             <VStack space={2}>
-              {(definition as Definition[])?.map(
-                (item, definitionIndex) =>
-                  item.meanings?.map(
+              {IsWordInDb
+                ? (definition as DefinitionInsert)?.word_meanings?.map(
                     (meaning, meaningIndex) =>
-                      meaning?.definitions?.map(
+                      meaning?.meanings_definitions?.map(
                         (def, defIndex) => def?.definition,
                       ),
-                  ),
-              )}
+                  )
+                : (definition as Definition[])?.map(
+                    (item, definitionIndex) =>
+                      item.meanings?.map(
+                        (meaning, meaningIndex) =>
+                          meaning?.definitions?.map(
+                            (def, defIndex) => def?.definition,
+                          ),
+                      ),
+                  )}
             </VStack>
           </Modal.Body>
         </Modal.Content>
