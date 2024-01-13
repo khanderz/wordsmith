@@ -36,13 +36,12 @@ export const HomeScreen = () => {
   // word list
   const [list, setList] = React.useState<Definition[] | Definition>([])
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
-  const [word, setWord] = React.useState<Definition[] | Definition>([])
-
-  console.log({ list, word })
-
+  const [word, setWord] = React.useState<
+    QueryData<Database> | Definition[] | Definition
+  >([])
+  console.log({ word, list })
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
-  // const [words, setWords] = React.useState<QueryData<Database> | null>(null)
 
   const fetchWords = async () => {
     const { data, error } = await supabase.from('definition').select('*')
@@ -167,7 +166,7 @@ export const HomeScreen = () => {
             <HStack
               key={index}
               w="100%"
-              justifyContent="space-between"
+              justifyContent="start"
               alignItems="center"
             >
               <Text
@@ -199,22 +198,24 @@ export const HomeScreen = () => {
           <Modal.Header>Definition</Modal.Header>
           <Modal.Body>
             <VStack space={2}>
-              {IsWordInDb
-                ? (definition as DefinitionInsert)?.word_meanings?.map(
-                    (meaning, meaningIndex) =>
-                      meaning?.meanings_definitions?.map(
-                        (def, defIndex) => def?.definition,
-                      ),
-                  )
-                : (definition as Definition[])?.map(
-                    (item, definitionIndex) =>
-                      item.meanings?.map(
-                        (meaning, meaningIndex) =>
-                          meaning?.definitions?.map(
-                            (def, defIndex) => def?.definition,
-                          ),
-                      ),
-                  )}
+              <Text>
+                {IsWordInDb
+                  ? (definition as DefinitionInsert)?.word_meanings?.map(
+                      (meaning, meaningIndex) =>
+                        meaning?.meanings_definitions?.map(
+                          (def, defIndex) => def?.definition,
+                        ),
+                    )
+                  : (definition as Definition[])?.map(
+                      (item, definitionIndex) =>
+                        item.meanings?.map(
+                          (meaning, meaningIndex) =>
+                            meaning?.definitions?.map(
+                              (def, defIndex) => def?.definition,
+                            ),
+                        ),
+                    )}
+              </Text>
             </VStack>
           </Modal.Body>
         </Modal.Content>

@@ -7,7 +7,6 @@ interface IsWordInDb {
 
 export const UseIsWordInDb = ({ list, word }: IsWordInDb) => {
   const wordToSearch = word
-  console.log({ wordToSearch })
 
   const wordInList = (list as Definition[])?.find(
     (item: Definition) => item.word === wordToSearch,
