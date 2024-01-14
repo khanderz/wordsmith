@@ -4,12 +4,13 @@ import { StatusBar } from 'expo-status-bar'
 import { NativeBaseProvider } from 'native-base'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+// import { HoldMenuProvider } from 'react-native-hold-menu'
 import { Title } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import 'react-native-url-polyfill/auto'
 
 import apolloClient from './src/clients/apollo'
-import { BottomNavigationBar } from './src/components/Naigation/BottomNavigationBar'
+import { BottomNavigationBar } from './src/components/Navigation/BottomNavigationBar'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <SafeAreaProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <NativeBaseProvider>
+            {/* <HoldMenuProvider style={{ flex: 1 }}> */}
             <NavigationContainer>
               {/* <View style={styles.container}>
           <Title>My Vocabulary List</Title>
@@ -24,6 +26,7 @@ export default function App() {
         </View> */}
               <BottomNavigationBar />
             </NavigationContainer>
+            {/* </HoldMenuProvider> */}
           </NativeBaseProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
@@ -31,11 +34,11 @@ export default function App() {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// })
