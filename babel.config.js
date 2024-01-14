@@ -18,14 +18,14 @@ module.exports = function (api) {
     plugins: [
       'react-native-paper/babel',
       '@babel/plugin-proposal-export-namespace-from',
-      'react-native-reanimated/plugin',
+      // 'react-native-reanimated/plugin',
     ],
     env: {
       production: {
         plugins: [
           'react-native-paper/babel',
           '@babel/plugin-proposal-export-namespace-from',
-          'react-native-reanimated/plugin',
+          // 'react-native-reanimated/plugin',
         ],
       },
     },
