@@ -13,6 +13,7 @@ export const SeeDefinitionButton = ({
 }: SeeDefinitionButtonProps) => {
   return (
     <Button
+      key={index}
       aria-label="definition-button"
       size="sm"
       onPress={() => handleDefinitionButton(index, item.word)}

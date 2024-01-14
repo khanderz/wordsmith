@@ -30,8 +30,6 @@ export const HomeScreen = () => {
   const [list, setList] = React.useState<Definition[] | Definition>([])
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
 
-  // console.log({ word, list })
-
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
 
@@ -59,10 +57,7 @@ export const HomeScreen = () => {
     IsWordInDb = !!wordInList
     wordToSearchVar = wordToSearch
 
-    const isExist = (list as Definition[])?.find(
-      (item: Definition) => item.word === word,
-    )
-    if (isExist) {
+    if (IsWordInDb) {
       toast.show({
         title: 'Word Already Exists',
       })
@@ -136,7 +131,6 @@ export const HomeScreen = () => {
         setInputValue={setInputValue}
         inputValue={inputValue}
       />
-
       <VStack space={2}>
         {(list as Definition[])?.map((item, index) => {
           return (
