@@ -39,7 +39,9 @@ export const HomeScreen = () => {
   const [word, setWord] = React.useState<
     QueryData<Database> | Definition[] | Definition
   >([])
-  console.log({ word, list })
+
+  // console.log({ word, list })
+
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
 
@@ -112,6 +114,7 @@ export const HomeScreen = () => {
       setDefinition(IsWordInDb)
       setModalVisible(true)
     } else {
+      console.log({ wordToSearchVar })
       const def: Definition[] = await fetchDict(wordToSearchVar)
 
       if ((def as Definition[])[0].title === 'No Definitions Found') {
@@ -126,7 +129,12 @@ export const HomeScreen = () => {
     }
   }
 
-  const handleDefinitionButton = () => {
+  const handleDefinitionButton = (index: number, word: Definition['word']) => {
+    const { wordInList, wordToSearch } = UseIsWordInDb({ list, word })
+    IsWordInDb = wordInList
+    wordToSearchVar = wordToSearch
+
+    console.log({ IsWordInDb, wordToSearchVar })
     handleWordToSearch()
   }
 
@@ -180,7 +188,7 @@ export const HomeScreen = () => {
               <Button
                 aria-label="definition-button"
                 size="sm"
-                onPress={() => handleDefinitionButton()}
+                onPress={() => handleDefinitionButton(index, item.word)}
               >
                 See definition
               </Button>
