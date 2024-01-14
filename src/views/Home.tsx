@@ -3,7 +3,6 @@ import * as Clipboard from 'expo-clipboard'
 import { Flex, Text, VStack, useToast } from 'native-base'
 import * as React from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-// import { HoldItem } from 'react-native-hold-menu'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
@@ -22,9 +21,8 @@ let wordToSearchVar = undefined
 export const HomeScreen = () => {
   // utils
   const toast = useToast()
-  const tap = Gesture.Tap().onStart(() => {
-    console.log('tap')
-  })
+  const tap = Gesture.Tap()
+
   // definitions
   const [modalVisible, setModalVisible] = React.useState(false)
   const [definition, setDefinition] = React.useState<
@@ -128,18 +126,6 @@ export const HomeScreen = () => {
     handleWordToSearch()
   }
 
-  // const MenuItems = [
-  //   { text: 'Actions', icon: 'home', isTitle: true, onPress: () => {} },
-  //   { text: 'Action 1', icon: 'edit', onPress: () => {} },
-  //   {
-  //     text: 'Action 2',
-  //     icon: 'map-pin',
-  //     withSeparator: true,
-  //     onPress: () => {},
-  //   },
-  //   { text: 'Action 3', icon: 'trash', isDestructive: true, onPress: () => {} },
-  // ]
-
   return (
     <Flex
       flexDirection="column"
@@ -149,7 +135,6 @@ export const HomeScreen = () => {
       h="100%"
     >
       <GestureDetector gesture={tap} userSelect="text">
-        {/* <HoldItem items={MenuItems}> */}
         <Text margin={1}>
           random words This differs a lot from the way the original project was
           written. Basically, ignore the value prop and pass text components as
@@ -159,7 +144,6 @@ export const HomeScreen = () => {
           textComponentsProps, we can use nested text styles and everything just
           works. Example
         </Text>
-        {/* </HoldItem> */}
       </GestureDetector>
       <AddWordInput
         addWord={addWord}

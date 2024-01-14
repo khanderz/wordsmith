@@ -19,7 +19,6 @@ module.exports = function (api) {
       'react-native-paper/babel',
       '@babel/plugin-proposal-export-namespace-from',
       'react-native-reanimated/plugin',
-      // 'module:metro-react-native-babel-preset',
     ],
     env: {
       production: {
