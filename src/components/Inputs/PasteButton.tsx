@@ -6,13 +6,13 @@ import React from 'react'
 import { Definition } from '../../types'
 
 type PasteButtonProps = {
-  word: Definition['word']
   onPress: () => void
 } & ClipboardPasteButtonProps
 
-export const PasteButton = ({ word, onPress, ...props }: PasteButtonProps) => {
+export const PasteButton = ({ onPress, ...props }: PasteButtonProps) => {
   return (
     <Button
+      {...props}
       aria-label="paste-button"
       m={1}
       onPress={() => {

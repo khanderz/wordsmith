@@ -7,7 +7,6 @@ interface AddWordInputProps {
   addWord: (inputValue: string) => void
   setInputValue: React.Dispatch<React.SetStateAction<string>>
   inputValue: string
-  copiedText: string
   fetchCopiedText: () => void
 }
 
@@ -15,7 +14,6 @@ export const AddWordInput = ({
   addWord,
   setInputValue,
   inputValue,
-  copiedText,
   fetchCopiedText,
 }: AddWordInputProps) => {
   return (
@@ -34,7 +32,6 @@ export const AddWordInput = ({
         inputValue={inputValue}
       />
       <PasteButton
-        word={copiedText}
         onPress={() => {
           fetchCopiedText()
         }}
