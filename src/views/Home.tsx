@@ -1,21 +1,12 @@
 import { QueryData, QueryError } from '@supabase/supabase-js'
-import {
-  Box,
-  Flex,
-  Input,
-  Text,
-  Button,
-  VStack,
-  HStack,
-  useToast,
-} from 'native-base'
+import { Flex, Text, VStack, useToast } from 'native-base'
 import * as React from 'react'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
+import { WordList } from '../components/Display/Wordlist'
 import { DefinitionModal } from '../components/Feedback/DefinitionModal'
-import { AddWordButton } from '../components/Inputs/AddWordButton'
-import { SeeDefinitionButton } from '../components/Inputs/SeeDefinitionButton'
+import { AddWordInput } from '../components/Inputs/AddWordInput'
 import { Definition, DefinitionInsert } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
@@ -38,9 +29,6 @@ export const HomeScreen = () => {
   // word list
   const [list, setList] = React.useState<Definition[] | Definition>([])
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
-  const [word, setWord] = React.useState<
-    QueryData<Database> | Definition[] | Definition
-  >([])
 
   // console.log({ word, list })
 
@@ -57,7 +45,6 @@ export const HomeScreen = () => {
     }
     if (data) {
       setList(data as QueryData<Database>)
-      setWord(data as QueryData<Database>)
       setFetchError(null)
     }
   }
@@ -130,9 +117,8 @@ export const HomeScreen = () => {
     }
   }
 
-  const handleDefinitionButton = (index: number, word: Definition['word']) => {
+  const handleDefinitionButton = (index: number) => {
     wordToSearchVar = list[index].word
-
     handleWordToSearch()
   }
 
@@ -145,45 +131,20 @@ export const HomeScreen = () => {
       h="100%"
     >
       <Text margin={1}>Home!</Text>
-      <Box flexDirection="row" justifyContent="center" w="90%">
-        <Input
-          aria-label="input-box"
-          placeholder="word to add"
-          w="50%"
-          m={1}
-          value={inputValue}
-          onChangeText={(v) => setInputValue(v)}
-        />
-        <AddWordButton
-          addWord={addWord}
-          setInputValue={setInputValue}
-          inputValue={inputValue}
-        />
-      </Box>
+      <AddWordInput
+        addWord={addWord}
+        setInputValue={setInputValue}
+        inputValue={inputValue}
+      />
 
       <VStack space={2}>
         {(list as Definition[])?.map((item, index) => {
           return (
-            <HStack
-              key={index}
-              w="100%"
-              justifyContent="start"
-              alignItems="center"
-            >
-              <Text
-                key={index}
-                aria-label={`vocab-word-${index}`}
-                textAlign="left"
-                margin={1}
-              >
-                {item.word}
-              </Text>
-              <SeeDefinitionButton
-                handleDefinitionButton={handleDefinitionButton}
-                index={index}
-                item={item}
-              />
-            </HStack>
+            <WordList
+              index={index}
+              item={item}
+              handleDefinitionButton={handleDefinitionButton}
+            />
           )
         })}
       </VStack>
