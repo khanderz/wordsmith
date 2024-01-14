@@ -1,4 +1,6 @@
 import { QueryData, QueryError } from '@supabase/supabase-js'
+import * as Clipboard from 'expo-clipboard'
+import { ClipboardEvent } from 'expo-clipboard'
 import { Flex, Text, VStack, useToast } from 'native-base'
 import * as React from 'react'
 
@@ -29,6 +31,15 @@ export const HomeScreen = () => {
   // word list
   const [list, setList] = React.useState<Definition[] | Definition>([])
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
+
+  // copy function
+  const [copiedText, setCopiedText] = React.useState('')
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getStringAsync()
+    setCopiedText(text)
+    setInputValue(text)
+  }
 
   // supabase fetch
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
@@ -130,6 +141,8 @@ export const HomeScreen = () => {
         addWord={addWord}
         setInputValue={setInputValue}
         inputValue={inputValue}
+        copiedText={copiedText}
+        fetchCopiedText={fetchCopiedText}
       />
       <VStack space={2}>
         {(list as Definition[])?.map((item, index) => {
