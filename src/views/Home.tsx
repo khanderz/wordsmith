@@ -134,7 +134,7 @@ export const HomeScreen = () => {
       w="100%"
       h="100%"
     >
-      <GestureDetector gesture={tap}>
+      <GestureDetector gesture={tap} userSelect="text">
         <Text margin={1}>
           random words This differs a lot from the way the original project was
           written. Basically, ignore the value prop and pass text components as
