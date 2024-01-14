@@ -2,11 +2,12 @@ import { Box, Input } from 'native-base'
 
 import { AddWordButton } from './AddWordButton'
 import { PasteButton } from './PasteButton'
+import { Definition } from '../../types'
 
 interface AddWordInputProps {
-  addWord: (inputValue: string) => void
+  addWord: (inputValue: Definition['word']) => void
   setInputValue: React.Dispatch<React.SetStateAction<string>>
-  inputValue: string
+  inputValue: Definition['word']
   fetchCopiedText: () => void
 }
 

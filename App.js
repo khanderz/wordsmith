@@ -15,27 +15,27 @@ export default function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <SafeAreaProvider>
-        <NativeBaseProvider>
-          <NavigationContainer>
-            <GestureHandlerRootView>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <NativeBaseProvider>
+            <NavigationContainer>
               {/* <View style={styles.container}>
           <Title>My Vocabulary List</Title>
           <StatusBar style="auto" />
         </View> */}
-            </GestureHandlerRootView>
-            <BottomNavigationBar />
-          </NavigationContainer>
-        </NativeBaseProvider>
+              <BottomNavigationBar />
+            </NavigationContainer>
+          </NativeBaseProvider>
+        </GestureHandlerRootView>
       </SafeAreaProvider>
     </ApolloProvider>
   )
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// })
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})

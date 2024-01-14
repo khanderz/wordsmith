@@ -11,7 +11,7 @@ export const BottomNavigationBar = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused, color }) => {
           let iconName
           if (route.name === 'My Vocabulary Lists') {
             iconName = focused
@@ -22,7 +22,7 @@ export const BottomNavigationBar = () => {
               ? 'radio-button-on-outline'
               : 'person-circle-outline'
           }
-          return <Ionicons name={iconName} size={size} color={color} />
+          return <Ionicons name={iconName} color={color} />
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',

@@ -3,8 +3,6 @@ import { ClipboardPasteButtonProps } from 'expo-clipboard'
 import { Button } from 'native-base'
 import React from 'react'
 
-import { Definition } from '../../types'
-
 type PasteButtonProps = {
   onPress: () => void
 } & ClipboardPasteButtonProps
