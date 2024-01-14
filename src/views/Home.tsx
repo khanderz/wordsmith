@@ -8,12 +8,14 @@ import {
   VStack,
   HStack,
   useToast,
-  Modal,
 } from 'native-base'
 import * as React from 'react'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
+import { DefinitionModal } from '../components/Feedback/DefinitionModal'
+import { AddWordButton } from '../components/Inputs/AddWordButton'
+import { SeeDefinitionButton } from '../components/Inputs/SeeDefinitionButton'
 import { Definition, DefinitionInsert } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
@@ -152,16 +154,11 @@ export const HomeScreen = () => {
           value={inputValue}
           onChangeText={(v) => setInputValue(v)}
         />
-        <Button
-          aria-label="add-button"
-          m={1}
-          onPress={() => {
-            addWord(inputValue)
-            setInputValue('')
-          }}
-        >
-          Add
-        </Button>
+        <AddWordButton
+          addWord={addWord}
+          setInputValue={setInputValue}
+          inputValue={inputValue}
+        />
       </Box>
 
       <VStack space={2}>
@@ -181,50 +178,21 @@ export const HomeScreen = () => {
               >
                 {item.word}
               </Text>
-              <Button
-                aria-label="definition-button"
-                size="sm"
-                onPress={() => handleDefinitionButton(index, item.word)}
-              >
-                See definition
-              </Button>
+              <SeeDefinitionButton
+                handleDefinitionButton={handleDefinitionButton}
+                index={index}
+                item={item}
+              />
             </HStack>
           )
         })}
       </VStack>
-      <Modal
-        aria-label="definition-modal"
-        isOpen={modalVisible}
-        onClose={() => setModalVisible(false)}
-      >
-        <Modal.Content>
-          <Modal.CloseButton />
-          <Modal.Header>Definition</Modal.Header>
-          <Modal.Body>
-            <VStack space={2}>
-              <Text>
-                {IsWordInDb
-                  ? (definition as DefinitionInsert)?.word_meanings?.map(
-                      (meaning, meaningIndex) =>
-                        meaning?.meanings_definitions?.map(
-                          (def, defIndex) => def?.definition,
-                        ),
-                    )
-                  : definition &&
-                    (definition as Definition[])?.map(
-                      (item, definitionIndex) =>
-                        item.meanings?.map(
-                          (meaning, meaningIndex) =>
-                            meaning?.definitions?.map(
-                              (def, defIndex) => def?.definition,
-                            ),
-                        ),
-                    )}
-              </Text>
-            </VStack>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal>
+      <DefinitionModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        definition={definition}
+        IsWordInDb={IsWordInDb}
+      />
     </Flex>
   )
 }

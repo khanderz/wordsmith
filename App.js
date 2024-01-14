@@ -9,7 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import 'react-native-url-polyfill/auto'
 
 import apolloClient from './src/clients/apollo'
-import { BottomNavigationBar } from './src/components/BottomNavigationBar'
+import { BottomNavigationBar } from './src/components/Naigation/BottomNavigationBar'
 
 export default function App() {
   return (
