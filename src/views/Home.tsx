@@ -114,7 +114,6 @@ export const HomeScreen = () => {
       setDefinition(IsWordInDb)
       setModalVisible(true)
     } else {
-      console.log({ wordToSearchVar })
       const def: Definition[] = await fetchDict(wordToSearchVar)
 
       if ((def as Definition[])[0].title === 'No Definitions Found') {
@@ -130,11 +129,8 @@ export const HomeScreen = () => {
   }
 
   const handleDefinitionButton = (index: number, word: Definition['word']) => {
-    const { wordInList, wordToSearch } = UseIsWordInDb({ list, word })
-    IsWordInDb = wordInList
-    wordToSearchVar = wordToSearch
+    wordToSearchVar = list[index].word
 
-    console.log({ IsWordInDb, wordToSearchVar })
     handleWordToSearch()
   }
 
@@ -214,7 +210,8 @@ export const HomeScreen = () => {
                           (def, defIndex) => def?.definition,
                         ),
                     )
-                  : (definition as Definition[])?.map(
+                  : definition &&
+                    (definition as Definition[])?.map(
                       (item, definitionIndex) =>
                         item.meanings?.map(
                           (meaning, meaningIndex) =>
