@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { AppRegistry, Text, View, Image, Button } from 'react-native'
 import ShareMenu, { ShareMenuReactView } from 'react-native-share-menu'
 
+import { Definition } from '../types'
+
 // share function
 type SharedItem = {
   mimeType: string
@@ -10,8 +12,11 @@ type SharedItem = {
   extraData: any
 }
 
-interface ShareFunctionProps {}
-export const useShareFunction = ({}: ShareFunctionProps) => {
+interface ShareFunctionProps {
+  word: Definition['word']
+}
+export const useShareFunction = ({ word }: ShareFunctionProps) => {
+  console.log({ word }, '----------------------------------------')
   const [sharedData, setSharedData] = React.useState(null)
   const [sharedMimeType, setSharedMimeType] = React.useState(null)
 

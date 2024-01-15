@@ -1,7 +1,9 @@
 import { QueryData, QueryError } from '@supabase/supabase-js'
 import * as Clipboard from 'expo-clipboard'
-import { Flex, Text, VStack, useToast } from 'native-base'
+import { Flex, VStack, useToast } from 'native-base'
 import * as React from 'react'
+import { Text } from 'react-native'
+import { Gesture } from 'react-native-gesture-handler'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
@@ -13,6 +15,7 @@ import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
 import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 import { UseIsWordInDb } from '../utils/useIsWordInDb'
+import { useShareFunction } from '../utils/useShareFunction'
 
 let IsWordInDb = undefined
 let wordToSearchVar = undefined
@@ -20,6 +23,7 @@ let wordToSearchVar = undefined
 export const HomeScreen = () => {
   // utils
   const toast = useToast()
+  const tap = Gesture.Tap()
 
   // definitions
   const [modalVisible, setModalVisible] = React.useState(false)
@@ -124,6 +128,8 @@ export const HomeScreen = () => {
     handleWordToSearch()
   }
 
+  const share = useShareFunction({ word: wordToSearchVar })
+
   return (
     <Flex
       flexDirection="column"
@@ -132,7 +138,7 @@ export const HomeScreen = () => {
       w="100%"
       h="100%"
     >
-      <Text margin={1} selectable selectionColor="red">
+      <Text selectable style={{ margin: 1 }}>
         random words This differs a lot from the way the original project was
         written. Basically, ignore the value prop and pass text components as
         children using the textComponentProps section. Typescript will give you
@@ -141,7 +147,6 @@ export const HomeScreen = () => {
         textComponentsProps, we can use nested text styles and everything just
         works. Example
       </Text>
-
       <AddWordInput
         addWord={addWord}
         setInputValue={setInputValue}
