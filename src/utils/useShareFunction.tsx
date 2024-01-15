@@ -124,6 +124,7 @@ const Share = () => {
     </View>
   )
 }
+export default Share
 
 AppRegistry.registerComponent('useShareFunction', () => useShareFunction)
 AppRegistry.registerComponent('ShareMenuModuleComponent', () => Share)

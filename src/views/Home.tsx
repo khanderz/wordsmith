@@ -3,7 +3,6 @@ import * as Clipboard from 'expo-clipboard'
 import { Flex, VStack, useToast } from 'native-base'
 import * as React from 'react'
 import { Text } from 'react-native'
-import { Gesture } from 'react-native-gesture-handler'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
@@ -23,7 +22,6 @@ let wordToSearchVar = undefined
 export const HomeScreen = () => {
   // utils
   const toast = useToast()
-  const tap = Gesture.Tap()
 
   // definitions
   const [modalVisible, setModalVisible] = React.useState(false)

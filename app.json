@@ -24,6 +24,15 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    }
+    },
+    "plugins": [
+      [
+        "./plugins/withAndroidMainActivityAttributes",
+        {
+          "android:showWhenLocked": true,
+          "android:turnScreenOn": true
+        }
+      ]
+    ]
   }
 }
