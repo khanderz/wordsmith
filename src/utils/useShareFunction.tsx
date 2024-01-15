@@ -1,8 +1,6 @@
 // import { Flex, Text, View, Image, VStack, useToast, Button } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import { AppRegistry, Text, View, Image, Button } from 'react-native'
-
-// import { AppRegistry } from 'react-native'
 import ShareMenu, { ShareMenuReactView } from 'react-native-share-menu'
 
 // share function
