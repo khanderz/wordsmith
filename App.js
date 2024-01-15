@@ -4,7 +4,6 @@ import { StatusBar } from 'expo-status-bar'
 import { NativeBaseProvider } from 'native-base'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-// import { HoldMenuProvider } from 'react-native-hold-menu'
 import { Title } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import 'react-native-url-polyfill/auto'
@@ -18,7 +17,6 @@ export default function App() {
       <SafeAreaProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <NativeBaseProvider>
-            {/* <HoldMenuProvider style={{ flex: 1 }}> */}
             <NavigationContainer>
               {/* <View style={styles.container}>
           <Title>My Vocabulary List</Title>
@@ -33,12 +31,3 @@ export default function App() {
     </ApolloProvider>
   )
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// })
