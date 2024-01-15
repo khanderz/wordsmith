@@ -127,7 +127,6 @@ export const HomeScreen = () => {
   }
 
   return (
-    // <HoldMenuProvider safeAreaInsets={safeAreaInsets}>
     <Flex
       flexDirection="column"
       justifyContent="center"
@@ -135,17 +134,17 @@ export const HomeScreen = () => {
       w="100%"
       h="100%"
     >
-      {/* <GestureDetector gesture={tap} userSelect="text"> */}
-      <Text margin={1}>
-        random words This differs a lot from the way the original project was
-        written. Basically, ignore the value prop and pass text components as
-        children using the textComponentProps section. Typescript will give you
-        an error saying that you need value to be defined. You do not. PR's to
-        fix this welcome. The reason we do this is because by using
-        textComponentsProps, we can use nested text styles and everything just
-        works. Example
-      </Text>
-      {/* </GestureDetector> */}
+      <GestureDetector gesture={tap} userSelect="text">
+        <Text margin={1}>
+          random words This differs a lot from the way the original project was
+          written. Basically, ignore the value prop and pass text components as
+          children using the textComponentProps section. Typescript will give
+          you an error saying that you need value to be defined. You do not.
+          PR's to fix this welcome. The reason we do this is because by using
+          textComponentsProps, we can use nested text styles and everything just
+          works. Example
+        </Text>
+      </GestureDetector>
       <AddWordInput
         addWord={addWord}
         setInputValue={setInputValue}
@@ -171,6 +170,5 @@ export const HomeScreen = () => {
         IsWordInDb={IsWordInDb}
       />
     </Flex>
-    // </HoldMenuProvider>
   )
 }
