@@ -14,7 +14,6 @@ import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
 import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 import { UseIsWordInDb } from '../utils/useIsWordInDb'
-import { useShareFunction } from '../utils/useShareFunction'
 
 let IsWordInDb = undefined
 let wordToSearchVar = undefined
@@ -125,8 +124,6 @@ export const HomeScreen = () => {
     wordToSearchVar = list[index].word
     handleWordToSearch()
   }
-
-  const share = useShareFunction({ word: wordToSearchVar })
 
   return (
     <Flex
