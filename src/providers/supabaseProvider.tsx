@@ -4,6 +4,7 @@ import { Provider } from 'react-supabase'
 
 // import 'react-native-url-polyfill/auto';
 import { Database } from '../../supabase/database.types'
+import { Definition, WordList } from '../types'
 
 export const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL
 export const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY
@@ -21,9 +22,13 @@ export const SupabaseProvider = (props: SupabaseProviderProps) => {
   return <Provider value={supabase}>{props.children}</Provider>
 }
 
-interface SupabaseContextProps {}
+interface SupabaseContextProps {
+  wordlist: WordList[]
+}
 
-export const SupabaseContext = React.createContext<SupabaseContextProps>({})
+export const SupabaseContext = React.createContext<SupabaseContextProps>({
+  wordlist: [] as WordList[],
+})
 
 export const useSupabaseContext = () => {
   const context = React.useContext(SupabaseContext)
