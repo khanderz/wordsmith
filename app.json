@@ -35,18 +35,16 @@
     },
     "plugins": [
       [
-        "./plugins/withAndroidMainActivityAttributes",
-        {
-          "android:showWhenLocked": true,
-          "android:turnScreenOn": true
-        }
-      ],
-      [
         "expo-camera",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "acc8812b-a55b-4d81-89ba-07d6877910ea"
+      }
+    }
   }
 }

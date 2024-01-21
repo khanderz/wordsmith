@@ -35,14 +35,12 @@ export const DefinitionModal = ({
                       ),
                   )
                 : definition &&
-                  (definition as Definition[])?.map(
-                    (item, definitionIndex) =>
-                      item.meanings?.map(
-                        (meaning, meaningIndex) =>
-                          meaning?.definitions?.map(
-                            (def, defIndex) => def?.definition,
-                          ),
+                  (definition as Definition[])?.map((item, definitionIndex) =>
+                    item.meanings?.map((meaning, meaningIndex) =>
+                      meaning?.definitions?.map(
+                        (def, defIndex) => def?.definition,
                       ),
+                    ),
                   )}
             </Text>
           </VStack>
