@@ -14,6 +14,31 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ],
+      [
+        "./plugins/withAndroidShareExtension/index",
+        {
+          "androidIntentFilters": ["text/*", "image/*"]
+        }
+      ],
+      [
+        "expo-config-plugin-ios-share-extension",
+        {
+          "activationRules": {
+            "NSExtensionActivationSupportsText": true,
+            "NSExtensionActivationSupportsWebURLWithMaxCount": 1,
+            "NSExtensionActivationSupportsWebPageWithMaxCount": 1,
+            "NSExtensionActivationSupportsImageWithMaxCount": 1
+          }
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.vocabme.app"
@@ -33,31 +58,6 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": [
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
-        }
-      ],
-      [
-        "./src/plugins/withAndroidShareExtension/index",
-        {
-          "androidIntentFilters": ["text/*", "image/*"]
-        }
-      ],
-      [
-        "expo-config-plugin-ios-share-extension",
-        {
-          "activationRules": {
-            "NSExtensionActivationSupportsText": true,
-            "NSExtensionActivationSupportsWebURLWithMaxCount": 1,
-            "NSExtensionActivationSupportsWebPageWithMaxCount": 1,
-            "NSExtensionActivationSupportsImageWithMaxCount": 1
-          }
-        }
-      ]
-    ],
     "extra": {
       "eas": {
         "projectId": "acc8812b-a55b-4d81-89ba-07d6877910ea"
