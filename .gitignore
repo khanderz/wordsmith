@@ -39,6 +39,4 @@ package-lock.json
 .env
 pg_graphql
 .idea
-android/
-ios/
 app.json
