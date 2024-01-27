@@ -59,7 +59,8 @@
     "react-native-web": "~0.19.6",
     "react-scripts": "^5.0.1",
     "react-supabase": "^0.2.0",
-    "typescript-eslint": "^0.0.1-alpha.0"
+    "typescript-eslint": "^0.0.1-alpha.0",
+    "expo-system-ui": "~2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
