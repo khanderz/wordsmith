@@ -33,11 +33,13 @@
     "expo": "^49.0.21",
     "expo-camera": "~13.4.4",
     "expo-clipboard": "^4.5.0",
+    "expo-config-plugin-ios-share-extension": "^0.0.4",
     "expo-constants": "~14.4.2",
     "expo-dev-client": "~2.4.12",
     "expo-sharing": "~11.5.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
+    "expo-system-ui": "~2.4.0",
     "gradient-string": "^2.0.2",
     "graphql": "^15.8.0",
     "lodash": "^4.17.21",
@@ -60,8 +62,7 @@
     "react-native-web": "~0.19.6",
     "react-scripts": "^5.0.1",
     "react-supabase": "^0.2.0",
-    "typescript-eslint": "^0.0.1-alpha.0",
-    "expo-system-ui": "~2.4.0"
+    "typescript-eslint": "^0.0.1-alpha.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
