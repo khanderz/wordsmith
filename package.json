@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "prettier": "prettier --write .",
     "codegen": "graphql-codegen --config codegen.ts",
-    "codegen:fetch": "node --no-warnings db/scripts/fetchGraphQLSchema "
+    "codegen:fetch": "node --no-warnings db/scripts/fetchGraphQLSchema",
+    "postinstall": "patch-package"
   },
   "//": "webpack must be version 19, expo  must be version 49, reanimated must be version 2.1.0 ",
   "dependencies": {
