@@ -48,11 +48,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.vocabme.app"
+      "package": "com.vocabme.app",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png",
