@@ -14,6 +14,11 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "plugins": [
       [
         "expo-camera",
@@ -26,28 +31,14 @@
         {
           "androidIntentFilters": ["text/*", "image/*"]
         }
-      ],
-      [
-        "expo-config-plugin-ios-share-extension",
-        {
-          "activationRules": {
-            "NSExtensionActivationSupportsText": true,
-            "NSExtensionActivationSupportsWebURLWithMaxCount": 1,
-            "NSExtensionActivationSupportsWebPageWithMaxCount": 1,
-            "NSExtensionActivationSupportsImageWithMaxCount": 1
-          }
-        }
       ]
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vocabme.app"
+      "bundleIdentifier": "com.vocabme.app",
+      "buildNumber": "1.0.0"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
       "package": "com.vocabme.app",
       "versionCode": 1
     },
