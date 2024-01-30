@@ -2,6 +2,7 @@
   "expo": {
     "name": "wordsmith",
     "slug": "wordsmith",
+    "jsEngine": "hermes",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -36,11 +37,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vocabme.app",
+      "bundleIdentifier": "com.wordsmith.app",
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.vocabme.app",
+      "package": "com.wordsmith.app",
       "versionCode": 1
     },
     "web": {
