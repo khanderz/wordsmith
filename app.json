@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "dictionary",
-    "slug": "dictionary",
+    "name": "wordsmith",
+    "slug": "wordsmith",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "wordsmith",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

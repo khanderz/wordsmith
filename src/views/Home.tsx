@@ -2,13 +2,14 @@ import { QueryData, QueryError } from '@supabase/supabase-js'
 import * as Clipboard from 'expo-clipboard'
 import { Flex, VStack, useToast } from 'native-base'
 import * as React from 'react'
-import { Text } from 'react-native'
+import { Button, Text, Image } from 'react-native'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
 import { WordList } from '../components/Display/Wordlist'
 import { DefinitionModal } from '../components/Feedback/DefinitionModal'
 import { AddWordInput } from '../components/Inputs/AddWordInput'
+import { useShareIntent } from '../hooks/useShareIntent'
 import { Definition, DefinitionInsert } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
@@ -19,6 +20,24 @@ let IsWordInDb = undefined
 let wordToSearchVar = undefined
 
 export const HomeScreen = () => {
+  // sharing intent
+  // const { shareIntent, resetShareIntent } = useShareIntent()
+
+  const shareIntent = useShareIntent()
+  console.log({ shareIntent })
+
+  React.useEffect(() => {
+    console.log({ shareIntent })
+  }, [shareIntent])
+
+  // React.useEffect(() => {
+  //   console.log({ shareIntent })
+
+  //   if (shareIntent?.data) {
+  //     resetShareIntent()
+  //   }
+  // }, [shareIntent])
+
   // utils
   const toast = useToast()
 
@@ -133,15 +152,14 @@ export const HomeScreen = () => {
       w="100%"
       h="100%"
     >
-      <Text selectable style={{ margin: 1 }}>
-        random words This differs a lot from the way the original project was
-        written. Basically, ignore the value prop and pass text components as
-        children using the textComponentProps section. Typescript will give you
-        an error saying that you need value to be defined. You do not. PR's to
-        fix this welcome. The reason we do this is because by using
-        textComponentsProps, we can use nested text styles and everything just
-        works. Example
-      </Text>
+      {!shareIntent && <Text>No Share intent detected</Text>}
+      {!!shareIntent && <Text>Share intent value:</Text>}
+      {/* {!!shareIntent && <Text>{shareIntent?.data}</Text>} */}
+      {/* {!!shareIntent && !shareIntent.uri && (
+        <Text>{JSON.stringify(shareIntent)}</Text>
+      )} */}
+      {/* {shareIntent?.uri && <Image source={shareIntent} />}
+      {!!shareIntent && <Button onPress={resetShareIntent} title="Reset" />} */}
       <AddWordInput
         addWord={addWord}
         setInputValue={setInputValue}

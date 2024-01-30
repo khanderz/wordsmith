@@ -15,8 +15,6 @@ import { useShareIntent } from './src/hooks/useShareIntent'
 import { SupabaseProvider } from './src/providers/supabaseProvider'
 
 export default function App() {
-  const { shareIntent, resetShareIntent } = useShareIntent()
-  console.log('App[render]', { shareIntent })
   return (
     <ApolloProvider client={apolloClient}>
       <SafeAreaProvider>
@@ -28,23 +26,6 @@ export default function App() {
           <Title>My Vocabulary List</Title>
           <StatusBar style="auto" />
         </View> */}
-
-                {!shareIntent && <Text>No Share intent detected</Text>}
-                {!!shareIntent && (
-                  <Text style={styles.gap}>Share intent value:</Text>
-                )}
-                {!!shareIntent && !shareIntent.uri && (
-                  <Text style={styles.gap}>{JSON.stringify(shareIntent)}</Text>
-                )}
-                {shareIntent?.uri && (
-                  <Image
-                    source={shareIntent}
-                    style={[styles.image, styles.gap]}
-                  />
-                )}
-                {!!shareIntent && (
-                  <Button onPress={resetShareIntent} title="Reset" />
-                )}
 
                 {/* <StatusBar style="auto" /> */}
                 <BottomNavigationBar />
