@@ -1,13 +1,11 @@
 {
   "expo": {
     "name": "wordsmith",
-    "slug": "wordsmith",
-    "jsEngine": "hermes",
+    "slug": "dictionary",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "wordsmith",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -16,6 +14,39 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.wordsmith.app",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.wordsmith.app",
+      "versionCode": 1,
+      "intentFilters": [
+        {
+          "action": "SEND",
+          "autoVerify": true,
+          "data": [
+            {
+              "mimeType": "text/*"
+            },
+            {
+              "mimeType": "image/*"
+            }
+          ],
+          "category": "DEFAULT"
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "acc8812b-a55b-4d81-89ba-07d6877910ea"
+      }
+    },
     "platforms": [
       "ios",
       "android",
@@ -34,24 +65,6 @@
           "androidIntentFilters": ["text/*", "image/*"]
         }
       ]
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.wordsmith.app",
-      "buildNumber": "1.0.0"
-    },
-    "android": {
-      "package": "com.wordsmith.app",
-      "versionCode": 1
-    },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "acc8812b-a55b-4d81-89ba-07d6877910ea"
-      }
-    }
+    ]
   }
 }
