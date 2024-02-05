@@ -1,33 +1,76 @@
 import Constants from 'expo-constants'
-import { useCallback, useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 
-export interface ShareIntent {
-  mimeType: string
-  data: string
-  extraData?: object | undefined
+export const getShareIntentAsync = async () => {
+  return new Promise((resolve, reject) => {
+    ReceiveSharingIntent.getReceivedFiles(
+      (data) => {
+        console.log({ data })
+        if (!data || data.length === 0) {
+          console.log('useShareIntent[data] no share intent detected')
+          return
+        }
+        const intent = data[0]
+        if (intent.weblink || intent.text) {
+          const link = intent.weblink || intent.text || ''
+          console.debug('useShareIntent[text/url]', link)
+          resolve({ text: JSON.stringify(link) })
+        } else if (intent.filePath) {
+          console.debug('useShareIntent[file]', {
+            uri: intent.contentUri || intent.filePath,
+            mimeType: intent.mimeType,
+            fileName: intent.fileName,
+          })
+          resolve({
+            uri: intent.contentUri || intent.filePath,
+            mimeType: intent.mimeType,
+            fileName: intent.fileName,
+          })
+        } else {
+          console.warn('useShareIntent[get] share type not handled', data)
+          reject(new Error('TYPE_NOT_HANDLED'))
+        }
+      },
+      (err) => {
+        console.error('useShareIntent[get] internal native module error', err)
+        reject(err)
+      },
+      // @ts-ignore
+      Constants.expoConfig.scheme,
+    )
+  })
 }
 
-export interface ShareData {
-  mimeType: string
-  data: string | string[]
-  extraData?: object | undefined
+export const clearShareIntent = () => {
+  ReceiveSharingIntent?.clearReceivedFiles()
 }
 
-export const useShareIntent = async () => {
+export default function useShareIntent() {
   const appState = useRef(AppState.currentState)
   const [shareIntent, setShareIntent] = useState(null)
+  const [error, setError] = useState()
 
+  const refreshShareIntent = () =>
+    getShareIntentAsync()
+      .then(setShareIntent)
+      // @ts-ignore
+      .catch((err) => setError('shareIntent error : ' + err?.message))
+
+  console.log({ appState })
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
-      if (
+      if (nextAppState === 'active') {
+        console.debug('useShareIntent[active] refresh intent')
+        refreshShareIntent()
+      } else if (
         appState.current === 'active' &&
         ['inactive', 'background'].includes(nextAppState)
       ) {
-        console.log('useShareIntent[to-background] reset intent')
+        console.debug('useShareIntent[to-background] reset intent')
         setShareIntent(null)
-        ReceiveSharingIntent?.clearReceivedFiles()
+        clearShareIntent()
       }
 
       appState.current = nextAppState
@@ -38,43 +81,14 @@ export const useShareIntent = async () => {
   }, [])
 
   useEffect(() => {
-    console.log('useShareIntent[mount]', Constants.expoConfig.scheme)
-    ReceiveSharingIntent.getReceivedFiles(
-      // files returns as JSON Array example
-      //[{ filePath: null, text: null, weblink: null, mimeType: null, contentUri: null, fileName: null, extension: null }]
-      (data) => {
-        console.log({ data })
-        setShareIntent(JSON.stringify(data.text) || '')
-        // const intent = data[0]
-        // if (intent.weblink || intent.text) {
-        //   const link = intent.weblink || intent.text || ''
-        //   console.log('useShareIntent[text/url]', link)
-        //   setShareIntent(JSON.stringify(link))
-        // } else if (intent.filePath) {
-        //   console.log('useShareIntent[file]', {
-        //     uri: intent.contentUri || intent.filePath,
-        //     mimeType: intent.mimeType,
-        //     fileName: intent.fileName,
-        //   })
-        //   setShareIntent({
-        //     uri: intent.contentUri || intent.filePath,
-        //     mimeType: intent.mimeType,
-        //     fileName: intent.fileName,
-        //   })
-        // } else {
-        //   console.log('useShareIntent[mount] share type not handled', data)
-        // }
-      },
-      (err) => {
-        console.log('useShareIntent[mount] error', err)
-      },
-      //@ts-ignore
-      Constants.expoConfig.scheme,
-    )
-    return () => {
-      ReceiveSharingIntent?.clearReceivedFiles()
-    }
-  }, [shareIntent])
+    // console.debug('useShareIntent[mount]', Constants.expoConfig.scheme)
+    refreshShareIntent()
+    return clearShareIntent
+  }, [])
 
-  return shareIntent
+  return {
+    shareIntent,
+    resetShareIntent: () => setShareIntent(null),
+    error,
+  }
 }

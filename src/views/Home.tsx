@@ -9,7 +9,7 @@ import { supabase } from '../clients/supabase'
 import { WordList } from '../components/Display/Wordlist'
 import { DefinitionModal } from '../components/Feedback/DefinitionModal'
 import { AddWordInput } from '../components/Inputs/AddWordInput'
-import { useShareIntent } from '../hooks/useShareIntent'
+import useShareIntent from '../hooks/useShareIntent'
 import { Definition, DefinitionInsert } from '../types'
 import { UseDictMapper } from '../utils/useDictMapper'
 import { fetchDict } from '../utils/useDictSearch'
@@ -21,22 +21,9 @@ let wordToSearchVar = undefined
 
 export const HomeScreen = () => {
   // sharing intent
-  // const { shareIntent, resetShareIntent } = useShareIntent()
+  const { shareIntent, resetShareIntent } = useShareIntent()
 
-  const shareIntent = useShareIntent()
   console.log({ shareIntent })
-
-  React.useEffect(() => {
-    console.log({ shareIntent })
-  }, [shareIntent])
-
-  // React.useEffect(() => {
-  //   console.log({ shareIntent })
-
-  //   if (shareIntent?.data) {
-  //     resetShareIntent()
-  //   }
-  // }, [shareIntent])
 
   // utils
   const toast = useToast()
@@ -154,7 +141,7 @@ export const HomeScreen = () => {
     >
       {!shareIntent && <Text>No Share intent detected</Text>}
       {!!shareIntent && <Text>Share intent value:</Text>}
-      {/* {!!shareIntent && <Text>{shareIntent?.data}</Text>} */}
+      {!!shareIntent && <Text>{shareIntent?.data}</Text>}
       {/* {!!shareIntent && !shareIntent.uri && (
         <Text>{JSON.stringify(shareIntent)}</Text>
       )} */}
