@@ -58,15 +58,15 @@ function addIntentFilters(androidManifest, currentIntentFilters, filters) {
   //   AndroidConfig.IntentFilters.default(currentIntentFilters);
   // DEFAULT VALUE (text and url)
   const newFilters = filters || ['text/*']
-  const newIntentFilters = newFilters.map((filter) => ({
-    action: 'android.intent.action.SEND',
-    category: 'android.intent.category.DEFAULT',
-    data: [
-      {
+  const newIntentFilters = [
+    {
+      action: 'android.intent.action.SEND',
+      category: 'android.intent.category.DEFAULT',
+      data: newFilters.map((filter) => ({
         mimeType: filter,
-      },
-    ],
-  }))
+      })),
+    },
+  ]
   const renderedNewIntentFilters = renderIntentFilters(newIntentFilters)
   // adds them properly to the manifest
   mainActivity['intent-filter'] =
