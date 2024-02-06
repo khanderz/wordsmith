@@ -9,7 +9,7 @@ export const getShareIntentAsync = async () => {
     ReceiveSharingIntent.getReceivedFiles(
       (data) => {
         if (!data || data.length === 0) {
-          // console.log('useShareIntent[data] no share intent detected')
+          console.log('useShareIntent[data] no share intent detected')
           return
         }
         const intent = data[0]
@@ -22,7 +22,6 @@ export const getShareIntentAsync = async () => {
           const match = link.match(regex)
           const extractedText = match ? match[1] : null
           text = extractedText
-          console.log({ text }, '-------------')
           // console.debug('useShareIntent[text/url]', link)
           resolve({ text: JSON.stringify(link) })
         } else if (intent.filePath) {
