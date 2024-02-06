@@ -21,9 +21,14 @@ let wordToSearchVar = undefined
 
 export const HomeScreen = () => {
   // sharing intent
-  const { shareIntent, resetShareIntent } = useShareIntent()
+  const { shareIntent, resetShareIntent, text } = useShareIntent()
 
-  console.log({ shareIntent })
+  React.useEffect(() => {
+    if (text) {
+      setInputValue(text)
+      resetShareIntent()
+    }
+  }, [text])
 
   // utils
   const toast = useToast()
@@ -139,14 +144,6 @@ export const HomeScreen = () => {
       w="100%"
       h="100%"
     >
-      {!shareIntent && <Text>No Share intent detected</Text>}
-      {!!shareIntent && <Text>Share intent value:</Text>}
-      {!!shareIntent && <Text>{shareIntent?.data}</Text>}
-      {/* {!!shareIntent && !shareIntent.uri && (
-        <Text>{JSON.stringify(shareIntent)}</Text>
-      )} */}
-      {/* {shareIntent?.uri && <Image source={shareIntent} />}
-      {!!shareIntent && <Button onPress={resetShareIntent} title="Reset" />} */}
       <AddWordInput
         addWord={addWord}
         setInputValue={setInputValue}

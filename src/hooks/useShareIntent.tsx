@@ -3,38 +3,46 @@ import { useEffect, useRef, useState } from 'react'
 import { AppState } from 'react-native'
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent'
 
+let text = ''
 export const getShareIntentAsync = async () => {
   return new Promise((resolve, reject) => {
     ReceiveSharingIntent.getReceivedFiles(
       (data) => {
-        console.log({ data })
         if (!data || data.length === 0) {
-          console.log('useShareIntent[data] no share intent detected')
+          // console.log('useShareIntent[data] no share intent detected')
           return
         }
         const intent = data[0]
+        console.log({ intent })
         if (intent.weblink || intent.text) {
           const link = intent.weblink || intent.text || ''
-          console.debug('useShareIntent[text/url]', link)
+          const regex = /\b([a-zA-Z]+)/
+
+          // Match the text
+          const match = link.match(regex)
+          const extractedText = match ? match[1] : null
+          text = extractedText
+          console.log({ text }, '-------------')
+          // console.debug('useShareIntent[text/url]', link)
           resolve({ text: JSON.stringify(link) })
         } else if (intent.filePath) {
-          console.debug('useShareIntent[file]', {
-            uri: intent.contentUri || intent.filePath,
-            mimeType: intent.mimeType,
-            fileName: intent.fileName,
-          })
+          // console.debug('useShareIntent[file]', {
+          //   uri: intent.contentUri || intent.filePath,
+          //   mimeType: intent.mimeType,
+          //   fileName: intent.fileName,
+          // })
           resolve({
             uri: intent.contentUri || intent.filePath,
             mimeType: intent.mimeType,
             fileName: intent.fileName,
           })
         } else {
-          console.warn('useShareIntent[get] share type not handled', data)
+          // console.warn('useShareIntent[get] share type not handled', data)
           reject(new Error('TYPE_NOT_HANDLED'))
         }
       },
       (err) => {
-        console.error('useShareIntent[get] internal native module error', err)
+        // console.error('useShareIntent[get] internal native module error', err)
         reject(err)
       },
       // @ts-ignore
@@ -58,7 +66,6 @@ export default function useShareIntent() {
       // @ts-ignore
       .catch((err) => setError('shareIntent error : ' + err?.message))
 
-  console.log({ appState })
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (nextAppState) => {
       if (nextAppState === 'active') {
@@ -90,5 +97,6 @@ export default function useShareIntent() {
     shareIntent,
     resetShareIntent: () => setShareIntent(null),
     error,
+    text,
   }
 }
