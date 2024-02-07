@@ -4,8 +4,9 @@ module.exports = function (api) {
     presets: [
       ['@babel/preset-env', { targets: { node: 'current' } }],
       '@babel/preset-typescript',
-      'module:metro-react-native-babel-preset',
     ],
+    // presets: ['@babel/preset-env', '@babel/preset-react'],
+
     plugins: [
       'react-native-paper/babel',
       '@babel/plugin-proposal-export-namespace-from',
@@ -13,15 +14,18 @@ module.exports = function (api) {
       '@babel/plugin-transform-react-jsx',
       '@babel/plugin-transform-flow-strip-types',
     ],
-    // env: {
-    //   production: {
-    //     plugins: [
-    //       'react-native-paper/babel',
-    //       '@babel/plugin-proposal-export-namespace-from',
-    //       'react-native-reanimated/plugin',
-    //       '@babel/plugin-transform-react-jsx',
-    //     ],
-    //   },
-    // },
+    env: {
+      test: {
+        plugins: ['@babel/plugin-transform-runtime'],
+      },
+      production: {
+        plugins: [
+          'react-native-paper/babel',
+          '@babel/plugin-proposal-export-namespace-from',
+          'react-native-reanimated/plugin',
+          '@babel/plugin-transform-react-jsx',
+        ],
+      },
+    },
   }
 }

@@ -1,11 +1,9 @@
 {
-  "compilerOptions": {},
-  "extends": "expo/tsconfig.base",
-  "jsx": "react-jsx",
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true,
-    "compilerOptions": {
-    }
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    
+    "jsx": "react-jsx",
+
   },
+  "extends": "expo/tsconfig.base",
 }

@@ -5,9 +5,9 @@ import { NativeBaseProvider } from 'native-base'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import apolloClient from './src/clients/apollo'
-import { BottomNavigationBar } from './src/components/Navigation/BottomNavigationBar'
-import { SupabaseProvider } from './src/providers/supabaseProvider'
+import apolloClient from '../../src/clients/apollo'
+import { BottomNavigationBar } from '../../src/components/Navigation/BottomNavigationBar'
+import { SupabaseProvider } from '../../src/providers/supabaseProvider'
 
 const AllProviders = ({ children }) => {
   return (
