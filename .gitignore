@@ -41,3 +41,5 @@ pg_graphql
 .idea
 android/
 ios/
+./jest
+coverage/
