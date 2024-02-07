@@ -14,7 +14,7 @@
     "codegen:fetch": "node --no-warnings db/scripts/fetchGraphQLSchema",
     "doctor": "npx expo-doctor",
     "postinstall": "patch-package",
-    "test": "jest --no-cache",
+    "test": "jest --silent --no-cache",
     "config": "jest --showConfig"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@babel/plugin-transform-flow-strip-types": "^7.23.3",
     "@babel/plugin-transform-react-jsx": "^7.23.4",
+    "@babel/preset-react": "^7.23.3",
     "@expo/config-plugins": "~7.8.0",
     "@expo/metro-runtime": "~3.1.1",
     "@expo/webpack-config": "^19.0.1",

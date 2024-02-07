@@ -10,12 +10,3 @@ export const supabase: SupabaseClient = createClient<Database>(
   supabaseUrl,
   supabaseKey,
 )
-
-// useEffect(() => {
-//   getCountries();
-// }, []);
-
-// async function getCountries() {
-//   const { data } = await supabase.from("countries").select();
-//   setCountries(data);
-// }

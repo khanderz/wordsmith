@@ -3,21 +3,20 @@ import {
   InMemoryCache,
   createHttpLink,
   defaultDataIdFromObject,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { relayStylePagination } from "@apollo/client/utilities";
+} from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 
-import { supabase } from "./supabase";
+import { supabase } from './supabase'
 
 const cache = new InMemoryCache({
   dataIdFromObject(responseObject) {
-    if ("nodeId" in responseObject) {
-      return `${responseObject.nodeId}`;
+    if ('nodeId' in responseObject) {
+      return `${responseObject.nodeId}`
     }
 
-    return defaultDataIdFromObject(responseObject);
+    return defaultDataIdFromObject(responseObject)
   },
-  possibleTypes: { Node: ["Words"] }, // optional, but useful to specify supertype-subtype relationships
+  possibleTypes: { Node: ['Words'] }, // optional, but useful to specify supertype-subtype relationships
   //   typePolicies: {
   //     Query: {
   //       fields: {
@@ -34,26 +33,26 @@ const cache = new InMemoryCache({
   //       },
   //     },
   // },
-});
+})
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:54321/graphql/v1",
-});
+  uri: 'http://localhost:54321/graphql/v1',
+})
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = (await supabase.auth.getSession()).data.session?.access_token;
+  const token = (await supabase.auth.getSession()).data.session?.access_token
 
   return {
     headers: {
       ...headers,
-      Authorization: token ? `Bearer ${token}` : "",
+      Authorization: token ? `Bearer ${token}` : '',
     },
-  };
-});
+  }
+})
 
 const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
-});
+})
 
-export default apolloClient;
+export default apolloClient

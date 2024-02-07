@@ -3,7 +3,7 @@
     "allowSyntheticDefaultImports": true,
     
     "jsx": "react-jsx",
-
+    "strictNullChecks": true
   },
   "extends": "expo/tsconfig.base",
 }
