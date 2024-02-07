@@ -11,13 +11,16 @@ import { SupabaseProvider } from './src/providers/supabaseProvider'
 
 export default function App() {
   return (
-    <ApolloProvider client={apolloClient}>
-      <SafeAreaProvider>
-        <SupabaseProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <NativeBaseProvider>
-              <NavigationContainer>
-                <BottomNavigationBar />
+    <ApolloProvider client={apolloClient} data-testid="apollo-provider">
+      <SafeAreaProvider data-testid="safe-area-provider">
+        <SupabaseProvider data-testid="supabase-provider">
+          <GestureHandlerRootView
+            style={{ flex: 1 }}
+            data-testid="gesture-handler-root-view"
+          >
+            <NativeBaseProvider data-testid="native-base-provider">
+              <NavigationContainer data-testid="navigation-container">
+                <BottomNavigationBar data-testid="bottom-navigation-bar" />
               </NavigationContainer>
             </NativeBaseProvider>
           </GestureHandlerRootView>
