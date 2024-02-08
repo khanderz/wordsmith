@@ -1,4 +1,4 @@
-export const SupaBaseClientMock = jest.mock('@supabase/supabase-js', () => {
+export const ApolloMock = jest.mock('@apollo/client', () => {
   let testData = [
     {
       id: 'mockedRoleId',

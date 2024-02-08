@@ -5,15 +5,20 @@ import { NativeBaseProvider } from 'native-base'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import apolloClient from '../../src/clients/apollo'
+import apolloClient from './ApolloMock'
+import SupaBaseClientMock from './supabaseClientMock'
+// import apolloClient from '../../src/clients/apollo'
 import { BottomNavigationBar } from '../../src/components/Navigation/BottomNavigationBar'
-import { SupabaseProvider } from '../../src/providers/supabaseProvider'
+// import { SupabaseProvider } from '../../src/providers/supabaseProvider'
 
+const SuperBaseProvider = ({ children }) => {
+  return <SupaBaseClientMock>{children}</SupaBaseClientMock>
+}
 const AllProviders = ({ children }) => {
   return (
     <ApolloProvider client={apolloClient}>
       <SafeAreaProvider>
-        <SupabaseProvider>
+        <SuperBaseProvider>
           <GestureHandlerRootView>
             <NativeBaseProvider>
               <NavigationContainer>
@@ -21,7 +26,7 @@ const AllProviders = ({ children }) => {
               </NavigationContainer>
             </NativeBaseProvider>
           </GestureHandlerRootView>
-        </SupabaseProvider>
+        </SuperBaseProvider>
       </SafeAreaProvider>
     </ApolloProvider>
   )
