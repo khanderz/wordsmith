@@ -12,8 +12,10 @@ export const UseDictMapper = ({ def }: DictMapperProps) => {
     const { license, meanings, phonetic, phonetics, sourceUrls, word } = def[i]
 
     const { name, url } = license
-    const { name: phonName, url: phonUrl } =
-      phonetics[0].license || phonetics[1].license
+    const { name: phonName, url: phonUrl } = phonetics[0].license ?? {
+      name: '',
+      url: '',
+    }
     const sourceUrlPhonetics = phonetics[0].sourceUrl
     const text = phonetics[0].text
     const audio = phonetics[0].audio

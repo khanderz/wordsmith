@@ -7,7 +7,7 @@ import { Definition } from '../../types'
 interface AddWordInputProps {
   addWord: (inputValue: Definition['word']) => void
   setInputValue: React.Dispatch<React.SetStateAction<string>>
-  inputValue: Definition['word']
+  inputValue: Definition['word'] | undefined
   fetchCopiedText: () => void
 }
 

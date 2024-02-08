@@ -1,4 +1,4 @@
-export const fetchDict = async (word: string) => {
+export const fetchDict = async (word: string | undefined) => {
   const response = await fetch(
     `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
   )

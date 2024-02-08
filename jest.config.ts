@@ -2,6 +2,11 @@ import type { Config } from 'jest'
 
 const config: Config = {
   preset: 'jest-expo',
+  transform: {
+    '^.+\\.(js|jsx)$': 'babel-jest',
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  transformIgnorePatterns: [],
 
   moduleFileExtensions: ['js', 'ts', 'tsx', 'jsx'],
 

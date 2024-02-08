@@ -6,7 +6,7 @@ interface DefinitionModalProps {
   modalVisible: boolean
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
   definition: Definition[] | Definition | DefinitionInsert
-  IsWordInDb: boolean
+  IsWordInDb: boolean | undefined
 }
 
 export const DefinitionModal = ({

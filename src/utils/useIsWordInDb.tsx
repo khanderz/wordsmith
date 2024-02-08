@@ -1,8 +1,8 @@
 import { Definition } from '../types'
 
 interface IsWordInDb {
-  list: Definition[] | Definition
-  word: Definition['word']
+  list: Definition[] | Definition | undefined
+  word: Definition['word'] | undefined
 }
 
 export const UseIsWordInDb = ({ list, word }: IsWordInDb) => {

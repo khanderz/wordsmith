@@ -16,8 +16,8 @@ import { fetchDict } from '../utils/useDictSearch'
 import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
 import { UseIsWordInDb } from '../utils/useIsWordInDb'
 
-let IsWordInDb = undefined
-let wordToSearchVar = undefined
+let IsWordInDb: boolean | undefined = undefined
+let wordToSearchVar: string | undefined = undefined
 
 export const HomeScreen = () => {
   // sharing intent
@@ -40,7 +40,9 @@ export const HomeScreen = () => {
   >([])
 
   // word list
-  const [list, setList] = React.useState<Definition[] | Definition>([])
+  const [list, setList] = React.useState<Definition[] | Definition | undefined>(
+    [],
+  )
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
 
   // copy function
@@ -56,7 +58,7 @@ export const HomeScreen = () => {
     const { data, error } = await supabase.from('definition').select('*')
     if (error) {
       setFetchError(error)
-      setList(null)
+      setList(undefined)
       console.log(fetchError)
       return
     }
@@ -114,7 +116,7 @@ export const HomeScreen = () => {
 
   const handleWordToSearch = async () => {
     if (IsWordInDb) {
-      setDefinition(IsWordInDb)
+      // setDefinition(IsWordInDb)
       setModalVisible(true)
     } else {
       const def: Definition[] = await fetchDict(wordToSearchVar)
@@ -132,7 +134,7 @@ export const HomeScreen = () => {
   }
 
   const handleDefinitionButton = (index: number) => {
-    wordToSearchVar = list[index].word
+    wordToSearchVar = list?.[index].word
     handleWordToSearch()
   }
 

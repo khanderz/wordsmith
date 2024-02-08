@@ -3,7 +3,7 @@ import { Button } from 'native-base'
 interface AddWordButtonProps {
   addWord: (inputValue: string) => void
   setInputValue: React.Dispatch<React.SetStateAction<string>>
-  inputValue: string
+  inputValue: string | undefined
 }
 
 export const AddWordButton = ({
@@ -16,7 +16,7 @@ export const AddWordButton = ({
       aria-label="add-button"
       m={1}
       onPress={() => {
-        addWord(inputValue)
+        addWord(inputValue as string)
         setInputValue('')
       }}
     >
