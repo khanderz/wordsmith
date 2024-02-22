@@ -11,7 +11,9 @@ import { SupabaseProvider } from './src/providers/supabaseProvider'
 
 export default function App() {
   return (
-    <ApolloProvider client={apolloClient} data-testid="apollo-provider">
+    // @ts-ignore
+    // eslint-disable-next-line react/jsx-curly-brace-presence, prettier/prettier
+    <ApolloProvider client={apolloClient} testID={"apollo-provider"}>
       <SafeAreaProvider data-testid="safe-area-provider">
         <SupabaseProvider data-testid="supabase-provider">
           <GestureHandlerRootView
