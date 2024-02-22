@@ -29,11 +29,13 @@ const AllProviders = ({ children }) => {
         // eslint-disable-next-line react/jsx-curly-brace-presence, prettier/prettier
       testID="apollo-provider"
       >
-        <SafeAreaProvider>
+        <SafeAreaProvider testID="safe-area-provider">
           {/* <SuperBaseProvider> */}
-          <GestureHandlerRootView>
-            <NavigationContainer>
-              <BottomNavigationBar>{children}</BottomNavigationBar>
+          <GestureHandlerRootView testID="gesture-handler-root-view">
+            <NavigationContainer testID="navigation-container">
+              <BottomNavigationBar testID="bottom-navigation-bar">
+                {children}
+              </BottomNavigationBar>
             </NavigationContainer>
           </GestureHandlerRootView>
           {/* </SuperBaseProvider> */}
