@@ -14,7 +14,7 @@ export const WordList = ({
   item,
   handleDefinitionButton,
 }: WordlistProps) => {
-  const client = useClient()
+  // const client = useClient()
   // const [{ count, data, error, fetching }, execute] = useDelete('todos')
 
   // const handleDelete = async (index: number) => {}

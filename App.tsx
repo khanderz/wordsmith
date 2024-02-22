@@ -14,15 +14,22 @@ export default function App() {
     // @ts-ignore
     // eslint-disable-next-line react/jsx-curly-brace-presence, prettier/prettier
     <ApolloProvider client={apolloClient} testID={"apollo-provider"}>
-      <SafeAreaProvider data-testid="safe-area-provider">
-        <SupabaseProvider data-testid="supabase-provider">
+      <SafeAreaProvider testID="safe-area-provider">
+        {/* @ts-ignore */}
+        <SupabaseProvider testID="supabase-provider">
           <GestureHandlerRootView
             style={{ flex: 1 }}
-            data-testid="gesture-handler-root-view"
+            testID="gesture-handler-root-view"
           >
-            <NativeBaseProvider data-testid="native-base-provider">
-              <NavigationContainer data-testid="navigation-container">
-                <BottomNavigationBar data-testid="bottom-navigation-bar" />
+            {/* @ts-ignore */}
+
+            <NativeBaseProvider testID="native-base-provider">
+              {/* @ts-ignore */}
+
+              <NavigationContainer testID="navigation-container">
+                {/* @ts-ignore */}
+
+                <BottomNavigationBar testID="bottom-navigation-bar" />
               </NavigationContainer>
             </NativeBaseProvider>
           </GestureHandlerRootView>
