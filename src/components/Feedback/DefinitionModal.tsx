@@ -4,7 +4,8 @@ import { DefinitionInsert, Definition } from '../../types'
 
 interface DefinitionModalProps {
   modalVisible: boolean
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
+  // setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setModalVisible: any
   definition: Definition[] | Definition | DefinitionInsert
   IsWordInDb: boolean | undefined
 }
