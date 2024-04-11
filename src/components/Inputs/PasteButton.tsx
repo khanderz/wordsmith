@@ -11,6 +11,7 @@ export const PasteButton = ({ onPress, ...props }: PasteButtonProps) => {
   return (
     <Button
       {...props}
+      testID="paste-button"
       aria-label="paste-button"
       m={1}
       onPress={() => {

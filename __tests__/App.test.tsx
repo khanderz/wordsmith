@@ -3,8 +3,7 @@ import App from '../App'
 
 describe('App component', () => {
   test('renders correctly', () => {
-    console.debug(render(<App />))
-
+    //@ts-ignore
     const { getByTestId } = render(<App />)
 
     // Assert that the ApolloProvider is rendered

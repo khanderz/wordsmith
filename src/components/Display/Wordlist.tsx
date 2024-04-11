@@ -7,11 +7,13 @@ interface WordlistProps {
   index: number
   item: { word: string }
   handleDefinitionButton: (index: number, word: string) => void
+  testID?: string
 }
 
 export const WordList = ({
   index,
   item,
+  testID,
   handleDefinitionButton,
 }: WordlistProps) => {
   // const client = useClient()
@@ -19,7 +21,13 @@ export const WordList = ({
 
   // const handleDelete = async (index: number) => {}
   return (
-    <HStack key={index} w="100%" justifyContent="start" alignItems="center">
+    <HStack
+      testID={testID}
+      key={index}
+      w="100%"
+      justifyContent="start"
+      alignItems="center"
+    >
       <Text
         key={index}
         aria-label={`vocab-word-${index}`}

@@ -63,7 +63,10 @@
       [
         "./plugins/withAndroidShareExtension/index",
         {
-          "androidIntentFilters": ["text/*", "image/*"]
+          "androidIntentFilters": [
+            "text/*",
+            "image/*"
+          ]
         }
       ]
     ]

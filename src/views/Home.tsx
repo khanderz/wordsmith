@@ -91,7 +91,7 @@ export const HomeScreen = () => {
       })
       return
     }
-
+    //@ts-ignore
     setList((prevList: Definition) => {
       return [
         //@ts-ignore
@@ -147,7 +147,9 @@ export const HomeScreen = () => {
       h="100%"
     >
       <AddWordInput
+        testID="add-word-input"
         addWord={addWord}
+        //@ts-ignore
         setInputValue={setInputValue}
         inputValue={inputValue}
         fetchCopiedText={fetchCopiedText}
@@ -156,6 +158,7 @@ export const HomeScreen = () => {
         {(list as Definition[])?.map((item, index) => {
           return (
             <WordList
+              testID="word-list"
               key={index}
               index={index}
               item={item}

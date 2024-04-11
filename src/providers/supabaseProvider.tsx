@@ -6,10 +6,12 @@ import { Provider } from 'react-supabase'
 import { Database } from '../../supabase/database.types'
 import { Definition, WordList } from '../types'
 
-export const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL as string
-export const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY as string
+export const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL
+export const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY
 
+//@ts-ignore
 export const supabase: SupabaseClient = createClient<Database>(
+  //@ts-ignore
   supabaseUrl,
   supabaseKey,
 )

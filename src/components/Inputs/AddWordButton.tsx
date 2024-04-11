@@ -13,6 +13,7 @@ export const AddWordButton = ({
 }: AddWordButtonProps) => {
   return (
     <Button
+      testID="add-word-button"
       aria-label="add-button"
       m={1}
       onPress={() => {

@@ -9,6 +9,7 @@ interface AddWordInputProps {
   setInputValue: React.Dispatch<React.SetStateAction<string>>
   inputValue: Definition['word'] | undefined
   fetchCopiedText: () => void
+  testID?: string
 }
 
 export const AddWordInput = ({
@@ -16,9 +17,10 @@ export const AddWordInput = ({
   setInputValue,
   inputValue,
   fetchCopiedText,
+  testID,
 }: AddWordInputProps) => {
   return (
-    <Box flexDirection="row" justifyContent="center" w="90%">
+    <Box testID={testID} flexDirection="row" justifyContent="center" w="90%">
       <Input
         aria-label="input-box"
         placeholder="word to add"

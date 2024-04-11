@@ -1,9 +1,15 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    
     "jsx": "react-jsx",
     "strictNullChecks": true
   },
   "extends": "expo/tsconfig.base",
+  "exclude": [
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts",
+    "src/handlers"
+  ]
 }
