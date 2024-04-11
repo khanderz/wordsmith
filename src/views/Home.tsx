@@ -56,6 +56,7 @@ export const HomeScreen = () => {
 
   const fetchWords = async () => {
     const { data, error } = await supabase.from('definition').select('*')
+    console.log({ data })
     if (error) {
       setFetchError(error)
       setList(undefined)

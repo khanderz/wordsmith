@@ -1,11 +1,25 @@
-import React from 'react'
+import { renderHook, act } from '@testing-library/react-hooks'
 
+import { supabase } from '../../src/clients/supabase'
 import { HomeScreen } from '../../src/views/Home'
 import { render } from '../test-utils/test-utils'
 
+jest.mock('../../src/clients/supabase')
+const setupComponent = ({ props }: any) => {
+  ;(supabase.from as jest.Mock).mockReturnValue({
+    select: jest.fn().mockResolvedValue({ data: props.data, error: null }),
+  })
+
+  return render(<HomeScreen />)
+}
+
 describe('Home component', () => {
   test('renders correctly', () => {
-    const { getByTestId } = render(<HomeScreen />)
+    const { getByTestId } = setupComponent({
+      props: {
+        data: [],
+      },
+    })
 
     // Assert that the AddWordInput is rendered
     expect(getByTestId('add-word-input')).toBeTruthy()
