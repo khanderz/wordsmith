@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
-    "strictNullChecks": true
+    "strictNullChecks": true,
   },
   "extends": "expo/tsconfig.base",
   "exclude": [

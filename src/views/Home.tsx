@@ -92,7 +92,7 @@ export const HomeScreen = () => {
       })
       return
     }
-    //@ts-ignore
+
     setList((prevList: Definition) => {
       return [
         //@ts-ignore

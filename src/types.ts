@@ -1,7 +1,7 @@
 export interface Definition {
-  id?: string
+  id?: string | number
   word: string
-  phonetic: string
+  phonetic: string | null // TODO null?
   phonetics: Phonetics[]
   license: License
   meanings: Meanings[]
@@ -10,8 +10,9 @@ export interface Definition {
 }
 
 export interface DefinitionInsert {
+  id?: string | number
   word: Definition['word']
-  phonetic: string
+  phonetic: string | null // TODO null?
   phonetics: PhoneticsInsert
   license: License
   word_meanings: MeaningsInsert[]
@@ -22,7 +23,7 @@ export interface PhoneticsInsert {
   word: Definition['word']
   phonetics_license?: License
   phonetics_source_url?: string
-  phonetics_text?: string
+  phonetics_text?: string | null
   phonetics_audio?: string
 }
 
@@ -51,7 +52,7 @@ export type Phonetics = {
 }
 
 export type License = {
-  id?: string
+  id?: string | number | null // TODO: null?
   name: string
   word: Definition['word']
   url: string
