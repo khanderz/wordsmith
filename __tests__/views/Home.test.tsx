@@ -1,6 +1,8 @@
 import { waitFor, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { renderHook, act } from '@testing-library/react-hooks'
+import { addAttach } from 'jest-html-reporters'
+import puppeteer from 'puppeteer'
 
 import { supabase } from '../../src/clients/supabase'
 import { HomeScreen } from '../../src/views/Home'
@@ -29,13 +31,20 @@ describe('Home component', () => {
     expect(container.getByTestId('paste-button')).toBeTruthy()
     expect(container.getByTestId('word-list')).toBeTruthy()
 
-    await waitFor(() => {
-      // expect(container.getByTestId('add-word-input')).toBeVisible()
+    const screen = await puppeteer.launch()
+    const page = await screen.newPage()
 
+    await waitFor(() => {
       expect(container.getByTestId(`word-0`)).toBeTruthy()
-      expect(container.getByTestId(`word-0`)).toHaveProperty('word', 'hello')
-      // expect(container.getByTestId(`word-1`)).toBeTruthy()
-      // expect(container.getByTestId(`definition`)).toBeTruthy()
+
+      const data = page.screenshot()
+      addAttach({
+        title: 'Home component',
+        attach: data,
+      })
+      // expect(container.getByTestId(`word-0`)).toHaveProperty('word', 'hello')
+      expect(container.getByTestId(`word-1`)).toBeTruthy()
+      expect(container.getByTestId(`definition`)).toBeTruthy()
     })
   }, 10000)
 })
