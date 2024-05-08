@@ -13,6 +13,7 @@ export const SeeDefinitionButton = ({
 }: SeeDefinitionButtonProps) => {
   return (
     <Button
+      testID="definition-button"
       key={index}
       aria-label="definition-button"
       size="sm"

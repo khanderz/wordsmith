@@ -56,7 +56,7 @@ export const HomeScreen = () => {
 
   const fetchWords = async () => {
     const { data, error } = await supabase.from('definition').select('*')
-    console.log({ data })
+
     if (error) {
       setFetchError(error)
       setList(undefined)
@@ -155,11 +155,12 @@ export const HomeScreen = () => {
         inputValue={inputValue}
         fetchCopiedText={fetchCopiedText}
       />
-      <VStack space={2}>
+      <VStack testID="word-list" space={2}>
         {(list as Definition[])?.map((item, index) => {
+          console.log({ item, index })
           return (
             <WordList
-              testID="word-list"
+              testID={`word-${index}`}
               key={index}
               index={index}
               item={item}

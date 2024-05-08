@@ -1,4 +1,4 @@
-import { Definition, DefinitionInsert } from '../../src/types'
+import { DefinitionInsert } from '../../src/types'
 
 export const mockDefinitionsData: DefinitionInsert[] = [
   {

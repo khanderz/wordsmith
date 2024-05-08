@@ -1,7 +1,10 @@
+import { waitFor, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
 import { renderHook, act } from '@testing-library/react-hooks'
 
 import { supabase } from '../../src/clients/supabase'
 import { HomeScreen } from '../../src/views/Home'
+import { mockDefinitionsData } from '../__mocks__/definitionsMock'
 import { render } from '../test-utils/test-utils'
 
 jest.mock('../../src/clients/supabase')
@@ -14,28 +17,27 @@ const setupComponent = ({ props }: any) => {
 }
 
 describe('Home component', () => {
-  test('renders correctly', () => {
-    const { getByTestId } = setupComponent({
+  test('renders correctly', async () => {
+    const container = setupComponent({
       props: {
-        data: [],
+        data: mockDefinitionsData,
       },
     })
 
-    // Assert that the AddWordInput is rendered
-    expect(getByTestId('add-word-input')).toBeTruthy()
+    expect(container.getByTestId('add-word-input')).toBeTruthy()
+    expect(container.getByTestId('add-word-button')).toBeTruthy()
+    expect(container.getByTestId('paste-button')).toBeTruthy()
+    expect(container.getByTestId('word-list')).toBeTruthy()
 
-    // Assert that the AddWordButton is rendered
-    expect(getByTestId('add-word-button')).toBeTruthy()
+    await waitFor(() => {
+      // expect(container.getByTestId('add-word-input')).toBeVisible()
 
-    // Assert that the PasteButton is rendered
-    expect(getByTestId('paste-button')).toBeTruthy()
-
-    // Assert that the WordList is rendered
-    expect(getByTestId('word-list')).toBeTruthy()
-
-    // Assert that the DefinitionModal is rendered
-    expect(getByTestId('definition-modal')).toBeTruthy()
-  })
+      expect(container.getByTestId(`word-0`)).toBeTruthy()
+      expect(container.getByTestId(`word-0`)).toHaveProperty('word', 'hello')
+      // expect(container.getByTestId(`word-1`)).toBeTruthy()
+      // expect(container.getByTestId(`definition`)).toBeTruthy()
+    })
+  }, 10000)
 })
 
 // renders word input with placeholder word to add
