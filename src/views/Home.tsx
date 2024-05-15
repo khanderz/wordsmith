@@ -55,7 +55,7 @@ export const HomeScreen = () => {
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
 
   const fetchWords = async () => {
-    console.log(supabase.from('definition'))
+    console.log(supabase.from('definition')) // returns undefined atm
     const { data, error } = await supabase.from('definition').select('*')
 
     console.log({ data, error })
