@@ -22,6 +22,8 @@ const config: Config = {
 
   setupFiles: ['<rootDir>/.jest/setEnvVars.js'],
   verbose: true,
+  resetMocks: false,
+  moduleDirectories: ['node_modules', __dirname],
 }
 
 export default config
