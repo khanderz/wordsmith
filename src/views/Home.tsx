@@ -44,7 +44,7 @@ export const HomeScreen = () => {
     [],
   )
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
-
+  console.log({ list })
   // copy function
   const fetchCopiedText = async () => {
     const text = await Clipboard.getStringAsync()
@@ -55,10 +55,8 @@ export const HomeScreen = () => {
   const [fetchError, setFetchError] = React.useState<QueryError | null>(null)
 
   const fetchWords = async () => {
-    console.log(supabase.from('definition')) // returns undefined atm
     const { data, error } = await supabase.from('definition').select('*')
 
-    console.log({ data, error })
     if (error) {
       setFetchError(error)
       setList(undefined)
