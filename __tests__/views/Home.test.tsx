@@ -14,7 +14,7 @@ import { render } from '../test-utils/test-utils'
 import '@supabase/supabase-js'
 
 const props = {
-  data: mockDefinitionsData,
+  data: mockDefinitionsData.definition,
 }
 
 jest.mock('../../src/clients/supabase')
@@ -56,7 +56,6 @@ jest.mock('@supabase/supabase-js', () => {
   }
 })
 
-// jest.mock('@supabase/supabase-js')
 const setupHook = ({ props }: any) => {
   return renderHook(() => HomeScreen())
 }
@@ -71,7 +70,6 @@ describe('Home component', () => {
     const container = setupComponent({ props })
     const { result } = setupHook({ props })
 
-    console.log(result.current)
     const dataReturn = result.current
     const input = container.getByTestId('add-word-input')
 
@@ -82,12 +80,17 @@ describe('Home component', () => {
     expect(container.getByTestId('word-list')).toBeTruthy()
 
     await waitFor(() => {
-      // console.log(container.getByTestId(`word-0`))
-      // const word = container.getByTestId(`word-0`)
-      // expect(container.getByTestId(`word-0`)).toBeTruthy()
-      // expect(container.getByTestId(`word-0`)).toHaveTextContent('hello')
-      // expect(container.getByTestId(`word-1`)).toBeTruthy()
-      // expect(container.getByTestId(`definition`)).toBeTruthy()
+      const word = container.getByTestId(`word-0`)
+      const wordText = within(word).getByText('hello')
+
+      expect(word).toBeTruthy()
+      expect(wordText).toBeTruthy()
+
+      const word2 = container.getByTestId(`word-1`)
+      const wordText2 = within(word2).getByText('value')
+
+      expect(word2).toBeTruthy()
+      expect(wordText2).toBeTruthy()
     })
   })
 })

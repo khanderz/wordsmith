@@ -44,7 +44,7 @@ export const HomeScreen = () => {
     [],
   )
   const [inputValue, setInputValue] = React.useState<Definition['title']>('')
-  console.log({ list })
+
   // copy function
   const fetchCopiedText = async () => {
     const text = await Clipboard.getStringAsync()
