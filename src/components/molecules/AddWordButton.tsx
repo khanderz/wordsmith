@@ -1,4 +1,4 @@
-import { Button } from 'native-base'
+import { Button } from '../atoms/Button'
 
 interface AddWordButtonProps {
   addWord: (inputValue: string) => void
@@ -14,14 +14,11 @@ export const AddWordButton = ({
   return (
     <Button
       testID="add-word-button"
-      aria-label="add-button"
-      m={1}
       onPress={() => {
-        addWord(inputValue as string)
+        addWord((inputValue as AddWordButtonProps['inputValue']) ?? '')
         setInputValue('')
       }}
-    >
-      Add
-    </Button>
+      buttonText="Add"
+    />
   )
 }

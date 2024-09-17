@@ -1,4 +1,4 @@
-import { Button } from 'native-base'
+import { Button } from '../atoms/Button'
 
 interface SeeDefinitionButtonProps {
   handleDefinitionButton: (index: number, word: string) => void
@@ -15,11 +15,9 @@ export const SeeDefinitionButton = ({
     <Button
       testID="definition-button"
       key={index}
-      aria-label="definition-button"
-      size="sm"
       onPress={() => handleDefinitionButton(index, item.word)}
-    >
-      See definition
-    </Button>
+      buttonText="Definition"
+      compact
+    />
   )
 }
