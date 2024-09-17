@@ -2,8 +2,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import * as React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import { AccountScreen } from '../../views/Account'
-import { HomeScreen } from '../../views/Home'
+import { AccountScreen } from '../../../views/Account'
+import { HomeScreen } from '../../../views/Home'
 
 export const BottomNavigationBar = (children: any) => {
   const Tab = createMaterialBottomTabNavigator()
