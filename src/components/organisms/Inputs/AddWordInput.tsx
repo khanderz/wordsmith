@@ -5,18 +5,18 @@ import { AddWordButton } from '../../molecules/AddWordButton'
 import { PasteButton } from '../../molecules/PasteButton'
 
 interface AddWordInputProps {
-  addWord: (inputValue: Definition['word']) => void
+  // addWord: (inputValue: Definition['word']) => void
   setInputValue: React.Dispatch<React.SetStateAction<string>>
   inputValue: Definition['word'] | undefined
-  fetchCopiedText: () => void
+  // fetchCopiedText: () => void
   testID?: string
 }
 
 export const AddWordInput = ({
-  addWord,
+  // addWord,
   setInputValue,
   inputValue,
-  fetchCopiedText,
+  // fetchCopiedText,
   testID,
 }: AddWordInputProps) => {
   return (
@@ -29,7 +29,7 @@ export const AddWordInput = ({
         value={inputValue}
         onChangeText={(v) => setInputValue(v)}
       />
-      <AddWordButton
+      {/* <AddWordButton
         addWord={addWord}
         setInputValue={setInputValue}
         inputValue={inputValue}
@@ -38,7 +38,7 @@ export const AddWordInput = ({
         onPress={() => {
           fetchCopiedText()
         }}
-      />
+      /> */}
     </Box>
   )
 }
