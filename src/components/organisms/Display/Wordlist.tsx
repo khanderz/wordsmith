@@ -1,7 +1,7 @@
 import { Button, HStack, Text } from 'native-base'
 import { useClient, useDelete } from 'react-supabase'
 
-import { SeeDefinitionButton } from '../Inputs/SeeDefinitionButton'
+import { SeeDefinitionButton } from '../../molecules/SeeDefinitionButton'
 
 interface WordlistProps {
   index: number

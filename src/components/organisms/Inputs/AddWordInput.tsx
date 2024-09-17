@@ -1,8 +1,8 @@
 import { Box, Input } from 'native-base'
 
-import { AddWordButton } from './AddWordButton'
-import { PasteButton } from './PasteButton'
-import { Definition } from '../../types'
+import { Definition } from '../../../types'
+import { AddWordButton } from '../../molecules/AddWordButton'
+import { PasteButton } from '../../molecules/PasteButton'
 
 interface AddWordInputProps {
   addWord: (inputValue: Definition['word']) => void

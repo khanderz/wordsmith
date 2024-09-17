@@ -6,15 +6,12 @@ import { Button, Text, Image } from 'react-native'
 
 import { Database } from '../../supabase/database.types'
 import { supabase } from '../clients/supabase'
-import { WordList } from '../components/Display/Wordlist'
-import { DefinitionModal } from '../components/Feedback/DefinitionModal'
-import { AddWordInput } from '../components/Inputs/AddWordInput'
-import useShareIntent from '../hooks/useShareIntent'
+import { WordList } from '../components/organisms/Display/Wordlist'
+import { DefinitionModal } from '../components/organisms/Feedback/DefinitionModal'
+import { AddWordInput } from '../components/organisms/Inputs/AddWordInput'
+import useShareIntent from '../lib/hooks/useShareIntent'
+import { utils } from '../lib/utils/index'
 import { Definition, DefinitionInsert } from '../types'
-import { UseDictMapper } from '../utils/useDictMapper'
-import { fetchDict } from '../utils/useDictSearch'
-import { UseInsertDefToTable } from '../utils/useInsertDefToTable'
-import { UseIsWordInDb } from '../utils/useIsWordInDb'
 
 let IsWordInDb: boolean | undefined = undefined
 let wordToSearchVar: string | undefined = undefined
@@ -74,7 +71,7 @@ export const HomeScreen = () => {
 
   // handles
   const addWord = (word: Definition['word']) => {
-    const { wordInList, wordToSearch } = UseIsWordInDb({ list, word })
+    const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
 
     IsWordInDb = !!wordInList
     wordToSearchVar = wordToSearch
@@ -106,9 +103,9 @@ export const HomeScreen = () => {
 
   const handleInsert = async (def: Definition[]) => {
     const { definitionObject, meaningsArray, definitionsMapped } =
-      UseDictMapper({ def })
+      utils.UseDictMapper({ def })
 
-    UseInsertDefToTable({
+    utils.UseInsertDefToTable({
       definitionObject,
       meaningsArray,
       definitionsMapped,
@@ -120,7 +117,7 @@ export const HomeScreen = () => {
       // setDefinition(IsWordInDb)
       setModalVisible(true)
     } else {
-      const def: Definition[] = await fetchDict(wordToSearchVar)
+      const def: Definition[] = await utils.fetchDict(wordToSearchVar)
 
       if ((def as Definition[])[0].title === 'No Definitions Found') {
         toast.show({
@@ -157,7 +154,6 @@ export const HomeScreen = () => {
       />
       <VStack testID="word-list" space={2}>
         {(list as Definition[])?.map((item, index) => {
-          console.log({ item, index })
           return (
             <WordList
               testID={`word-${index}`}

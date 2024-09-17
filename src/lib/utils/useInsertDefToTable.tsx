@@ -1,5 +1,9 @@
-import { supabase } from '../clients/supabase'
-import { DefinitionInsert, MeaningsInsert, DefinitionsInsert } from '../types'
+import {
+  DefinitionInsert,
+  MeaningsInsert,
+  DefinitionsInsert,
+} from '../../types'
+import { supabase } from '../providers/supabaseProvider'
 
 interface InsertDefToTableProps {
   definitionObject: DefinitionInsert

@@ -8,8 +8,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import 'react-native-url-polyfill/auto'
 import apolloClient from './src/clients/apollo'
-import { BottomNavigationBar } from './src/components/Navigation/BottomNavigationBar'
-import { SupabaseProvider } from './src/providers/supabaseProvider'
+import { BottomNavigationBar } from './src/components/organisms/Navigation/BottomNavigationBar'
+import { SupabaseProvider } from './src/lib/providers/supabaseProvider'
 
 export default function App() {
   return (
