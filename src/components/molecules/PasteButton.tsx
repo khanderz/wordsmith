@@ -1,4 +1,3 @@
-import * as Clipboard from 'expo-clipboard'
 import { ClipboardPasteButtonProps } from 'expo-clipboard'
 
 import { Button } from '../atoms/Button'

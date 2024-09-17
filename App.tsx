@@ -8,6 +8,7 @@ import 'react-native-url-polyfill/auto'
 import apolloClient from './src/clients/apollo'
 import { BottomBar } from './src/components/organisms/Navigation/BottomNavigationBar'
 import { TopBar } from './src/components/organisms/Navigation/TopBar'
+import { WordlistProvider } from './src/lib/providers/WordlistContext'
 import { SupabaseProvider } from './src/lib/providers/supabaseProvider'
 
 export default function App() {
@@ -25,9 +26,10 @@ export default function App() {
             {/* @ts-ignore */}
 
             <NativeBaseProvider testID="native-base-provider">
-              {/* @ts-ignore */}
-              <TopBar testID="top-navigation-bar" />
-              <BottomBar testID="bottom-navigation-bar" />
+              <WordlistProvider>
+                <TopBar testID="top-navigation-bar" />
+                <BottomBar testID="bottom-navigation-bar" />
+              </WordlistProvider>
             </NativeBaseProvider>
           </GestureHandlerRootView>
         </SupabaseProvider>
