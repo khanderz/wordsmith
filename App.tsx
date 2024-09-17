@@ -1,14 +1,13 @@
 import { ApolloProvider } from '@apollo/client'
-import { NavigationContainer } from '@react-navigation/native'
+// import { NavigationContainer } from '@react-navigation/native'
 import { NativeBaseProvider } from 'native-base'
-import React from 'react'
-import ReactDOM from 'react-dom'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import 'react-native-url-polyfill/auto'
 import apolloClient from './src/clients/apollo'
-import { BottomNavigationBar } from './src/components/organisms/Navigation/BottomNavigationBar'
+import { BottomBar } from './src/components/organisms/Navigation/BottomNavigationBar'
+import { TopBar } from './src/components/organisms/Navigation/TopBar'
 import { SupabaseProvider } from './src/lib/providers/supabaseProvider'
 
 export default function App() {
@@ -27,12 +26,8 @@ export default function App() {
 
             <NativeBaseProvider testID="native-base-provider">
               {/* @ts-ignore */}
-
-              <NavigationContainer testID="navigation-container">
-                {/* @ts-ignore */}
-
-                <BottomNavigationBar testID="bottom-navigation-bar" />
-              </NavigationContainer>
+              <TopBar testID="top-navigation-bar" />
+              <BottomBar testID="bottom-navigation-bar" />
             </NativeBaseProvider>
           </GestureHandlerRootView>
         </SupabaseProvider>

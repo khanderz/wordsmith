@@ -1,11 +1,15 @@
 import { useState } from 'react'
-import { BottomNavigation, Text } from 'react-native-paper'
+import { BottomNavigation } from 'react-native-paper'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { AccountScreen } from '../../../views/Account'
 import { HomeScreen } from '../../../views/Home'
 
-export const BottomNavigationBar = () => {
+interface BottomBarProps {
+  testID: string
+}
+
+export const BottomBar = ({ testID }: BottomBarProps) => {
   const [index, setIndex] = useState(0)
 
   const [routes] = useState([
@@ -20,6 +24,7 @@ export const BottomNavigationBar = () => {
 
   return (
     <BottomNavigation
+      testID={testID}
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}

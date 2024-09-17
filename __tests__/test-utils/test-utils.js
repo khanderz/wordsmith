@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { SupaBaseClientMock } from './supabaseClientMock'
-import { BottomNavigationBar } from '../../src/components/Navigation/BottomNavigationBar'
+import { BottomBar } from '../../src/components/Navigation/BottomNavigationBar'
 import '@testing-library/jest-dom'
 jest.useFakeTimers()
 
