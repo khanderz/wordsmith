@@ -108,7 +108,7 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
       IsWordInDb,
       wordToSearchVar,
     }
-  }, [])
+  }, [list, IsWordInDb, wordToSearchVar])
 
   return (
     <WordlistContext.Provider value={value}>
