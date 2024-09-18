@@ -9,6 +9,7 @@ import { BottomBar } from './src/components/organisms/Navigation/BottomNavigatio
 import { TopBar } from './src/components/organisms/Navigation/TopBar'
 import apolloClient from './src/lib/clients/apollo'
 import { SupabaseProvider } from './src/lib/providers/SupabaseProvider'
+import { UserProvider } from './src/lib/providers/UserProvider'
 import { WordlistProvider } from './src/lib/providers/WordlistProvider'
 
 export default function App() {
@@ -19,19 +20,21 @@ export default function App() {
       <SafeAreaProvider testID="safe-area-provider">
         {/* @ts-ignore */}
         <SupabaseProvider testID="supabase-provider">
-          <GestureHandlerRootView
-            style={{ flex: 1 }}
-            testID="gesture-handler-root-view"
-          >
-            {/* @ts-ignore */}
+          <UserProvider testID="user-provider">
+            <GestureHandlerRootView
+              style={{ flex: 1 }}
+              testID="gesture-handler-root-view"
+            >
+              {/* @ts-ignore */}
 
-            <NativeBaseProvider testID="native-base-provider">
-              <WordlistProvider>
-                <TopBar testID="top-navigation-bar" />
-                <BottomBar testID="bottom-navigation-bar" />
-              </WordlistProvider>
-            </NativeBaseProvider>
-          </GestureHandlerRootView>
+              <NativeBaseProvider testID="native-base-provider">
+                <WordlistProvider testID="wordlist-provider">
+                  <TopBar testID="top-navigation-bar" />
+                  <BottomBar testID="bottom-navigation-bar" />
+                </WordlistProvider>
+              </NativeBaseProvider>
+            </GestureHandlerRootView>
+          </UserProvider>
         </SupabaseProvider>
       </SafeAreaProvider>
     </ApolloProvider>
