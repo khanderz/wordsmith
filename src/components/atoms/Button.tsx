@@ -17,7 +17,7 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <ButtonTemplate
-      style={{ margin: 5 }}
+      style={{ margin: 5, borderRadius: 5 }}
       testID={testID}
       onPress={onPress}
       mode="contained"
