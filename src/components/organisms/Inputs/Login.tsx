@@ -1,22 +1,21 @@
 import { Box } from 'native-base'
 import { useState } from 'react'
+import { ActivityIndicator } from 'react-native'
 
+import { useUser } from '../../../lib/providers/UserProvider'
 import { Button } from '../../atoms/Button'
 import { TextInput } from '../../atoms/TextInput'
 
-interface LoginProps {}
-
-export const Login = ({}: LoginProps) => {
+export const Login = () => {
+  const { fetchUser, loading } = useUser()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const onEmailChange = (text: string) => {
-    setEmail(text)
+  const handleLogin = async () => {
+    await fetchUser()
   }
 
-  const onPasswordChange = (text: string) => {
-    setPassword(text)
-  }
+  if (loading) return <ActivityIndicator />
 
   return (
     <Box
@@ -27,17 +26,13 @@ export const Login = ({}: LoginProps) => {
         alignItems: 'center',
       }}
     >
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={(val) => onEmailChange(val)}
-      />
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput
         placeholder="Password"
         value={password}
-        onChangeText={(val) => onPasswordChange(val)}
+        onChangeText={setPassword}
       />
-      <Button buttonText="Login" onPress={() => {}} testID="login-button" />
+      <Button buttonText="Login" onPress={handleLogin} testID="login-button" />
     </Box>
   )
 }

@@ -18,7 +18,6 @@ interface UserContextProps {
   error: string | null
   fetchUser: () => Promise<void>
   addUser: (
-    userName: User['user_name'],
     userEmail: User['user_email'],
     password: User['user_password'],
   ) => Promise<void>
@@ -88,7 +87,6 @@ export function UserProvider({ children }: UserProviderProps) {
   }
 
   const addUser = async (
-    userName: User['user_name'],
     userEmail: User['user_email'],
     password: User['user_password'],
   ) => {
@@ -113,7 +111,7 @@ export function UserProvider({ children }: UserProviderProps) {
       // After successful signup, insert user data into the `user` table
       const { error } = await supabase.from('user').insert({
         user_id: user.id, // Use Supabase-generated user ID
-        user_name: userName,
+        user_name: userEmail,
         user_email: userEmail,
         user_password: password,
         user_wordlist: [], // Initialize with an empty wordlist
