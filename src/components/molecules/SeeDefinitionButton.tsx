@@ -1,21 +1,35 @@
+import { useWordlistContext } from '../../lib/providers/WordlistContext'
+import { Definition } from '../../types'
 import { Button } from '../atoms/Button'
 
 interface SeeDefinitionButtonProps {
-  handleDefinitionButton: (index: number, word: string) => void
   index: number
-  item: { word: string }
+  item: Definition
 }
 
 export const SeeDefinitionButton = ({
-  handleDefinitionButton,
   index,
   item,
 }: SeeDefinitionButtonProps) => {
+  const { list, setWordToSearchVar, handleWordToSearch } = useWordlistContext()
+
+  const handleDefinitionButton = (index: number) => {
+    const word = list?.[index].word
+
+    if (word) {
+      // setWordToSearchVar(word)
+      handleWordToSearch(word)
+    } else {
+      setWordToSearchVar(item.word)
+      handleWordToSearch(item.word)
+    }
+  }
+
   return (
     <Button
       testID="definition-button"
       key={index}
-      onPress={() => handleDefinitionButton(index, item.word)}
+      onPress={() => handleDefinitionButton(index)}
       buttonText="Definition"
       compact
     />

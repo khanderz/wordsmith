@@ -1,4 +1,4 @@
-import { Definition, DefinitionInsert, MeaningsInsert } from '../types'
+import { Definition, DefinitionInsert, MeaningsInsert } from '../../types'
 
 interface DictMapperProps {
   def: Definition[]

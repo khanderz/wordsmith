@@ -2,20 +2,16 @@ import { Box, Text } from 'native-base'
 import { useClient, useDelete } from 'react-supabase'
 
 import { SeeDefinitionButton } from './SeeDefinitionButton'
+import { useWordlistContext } from '../../lib/providers/WordlistContext'
+import { Definition } from '../../types'
 
 interface WordRowProps {
   index: number
-  item: { word: string }
-  handleDefinitionButton: (index: number, word: string) => void
+  item: Definition
   testID: string
 }
 
-export const WordRow = ({
-  item,
-  handleDefinitionButton,
-  index,
-  testID,
-}: WordRowProps) => {
+export const WordRow = ({ item, index, testID }: WordRowProps) => {
   // const client = useClient()
   // const [{ count, data, error, fetching }, execute] = useDelete('todos')
 
@@ -30,17 +26,14 @@ export const WordRow = ({
     >
       <Text
         key={index}
+        testID={testID}
         aria-label={`vocab-word-${index}`}
         textAlign="left"
         margin={1}
       >
         {item.word}
       </Text>
-      <SeeDefinitionButton
-        handleDefinitionButton={handleDefinitionButton}
-        index={index}
-        item={item}
-      />
+      <SeeDefinitionButton index={index} item={item} />
       {/* <Button
         key={index}
         aria-label="delete-button"

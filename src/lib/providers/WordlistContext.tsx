@@ -1,18 +1,21 @@
-import { QueryError, QueryData } from '@supabase/supabase-js'
+import { QueryData } from '@supabase/supabase-js'
 import { useToast } from 'native-base'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 import { supabase } from './supabaseProvider'
 import { Database } from '../../../supabase/database.types'
 import { utils } from '../../lib/utils/index'
-import { Definition } from '../../types'
+import { Definition, DefinitionInsert } from '../../types'
 
 export interface WordlistContextProps {
-  addWord: (word: Definition['word']) => void
-  list: Definition[] | Definition | undefined
+  list: Definition[] | Definition
+  setWordToSearchVar: (word: Definition['word']) => void
   IsWordInDb?: boolean
-  wordToSearchVar?: string
-  setWordToSearchVar: (word: string) => void
+  addWord: (word: Definition['word']) => void
+  definition: Definition[] | Definition | DefinitionInsert
+  modalVisible: boolean
+  setModalVisible: (value: boolean) => void
+  handleWordToSearch: (word: Definition['word']) => void
 }
 interface WordlistProviderProps {
   children: React.ReactNode
@@ -21,40 +24,79 @@ interface WordlistProviderProps {
 const WordlistContext = createContext<WordlistContextProps>({
   addWord: () => {},
   list: [],
-  IsWordInDb: false,
-  wordToSearchVar: '',
   setWordToSearchVar: () => {},
+  definition: [],
+  modalVisible: false,
+  setModalVisible: () => {},
+  handleWordToSearch: () => {},
 })
 
 export function WordlistProvider({ children }: WordlistProviderProps) {
   // utils
   const toast = useToast()
 
-  // word list
-  const [list, setList] = useState<Definition[] | Definition | undefined>([])
-  const [wordToSearchVar, setWordToSearchVar] = useState<string | undefined>(
-    undefined,
-  )
+  // states
+  const [list, setList] = useState<Definition[] | Definition>([])
+  const [wordToSearchVar, setWordToSearchVar] = useState<
+    Definition['word'] | undefined
+  >(undefined)
   const [IsWordInDb, setIsWordInDb] = useState<boolean | undefined>(undefined)
+  const [definition, setDefinition] = useState<
+    Definition[] | Definition | DefinitionInsert
+  >([])
+  const [modalVisible, setModalVisible] = useState(false)
 
   // supabase fetch
-  const [fetchError, setFetchError] = useState<QueryError | null>(null)
-
   const fetchWords = async () => {
-    const { data, error } = await supabase.from('definition').select('*')
+    const { data } = await supabase.from('definition').select('*')
 
-    if (error) {
-      setFetchError(error)
-      setList(undefined)
-      return
-    }
     if (data) {
       setList(data as QueryData<Database>)
-      setFetchError(null)
     }
   }
 
   // handles
+  const checkWordInDb = (word: Definition['word']) => {
+    const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
+
+    setIsWordInDb(!!wordInList)
+    setWordToSearchVar(wordToSearch)
+    if (wordInList) {
+      setDefinition(wordInList)
+    }
+  }
+
+  const handleInsert = (def: Definition[]) => {
+    const { definitionObject, meaningsArray, definitionsMapped } =
+      utils.UseDictMapper({ def })
+
+    utils.UseInsertDefToTable({
+      definitionObject,
+      meaningsArray,
+      definitionsMapped,
+    })
+  }
+
+  const handleWordToSearch = async (word: Definition['word']) => {
+    checkWordInDb(word)
+    console.log({ IsWordInDb, word, wordToSearchVar })
+    if (IsWordInDb) {
+      setModalVisible(true)
+    } else {
+      // Use wordToSearchVar to fetch the definition from the external API
+      const defFromApi: Definition[] = await utils.fetchDict(wordToSearchVar)
+
+      if (defFromApi[0]?.title === 'No Definitions Found') {
+        console.log('No Definitions Found')
+        // toast.show({ title: 'No Definitions Found' })
+      } else {
+        setModalVisible(true)
+        setDefinition(defFromApi)
+        handleInsert(defFromApi)
+      }
+    }
+  }
+
   const addWord = async (word: Definition['word']) => {
     const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
 
@@ -97,11 +139,6 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   // lifecycle methods
   useEffect(() => {
     fetchWords()
-  }, [])
-
-  // Re-fetch data whenever the list changes
-  useEffect(() => {
-    fetchWords()
   }, [list])
 
   const value = useMemo(() => {
@@ -109,10 +146,13 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
       addWord,
       list,
       IsWordInDb,
-      wordToSearchVar,
       setWordToSearchVar,
+      definition,
+      modalVisible,
+      setModalVisible,
+      handleWordToSearch,
     }
-  }, [list, IsWordInDb, wordToSearchVar])
+  }, [list, IsWordInDb, addWord, handleInsert, definition, modalVisible])
 
   return (
     <WordlistContext.Provider value={value}>

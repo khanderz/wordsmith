@@ -1,21 +1,14 @@
 import { VStack, Modal, Text } from 'native-base'
 
-import { DefinitionInsert, Definition } from '../../types'
+import { useWordlistContext } from '../../../lib/providers/WordlistContext'
+import { Definition, DefinitionInsert } from '../../../types'
 
 interface DefinitionModalProps {
   modalVisible: boolean
-  // setModalVisible: React.Dispatch<React.SetStateAction<boolean>>
-  setModalVisible: any
-  definition: Definition[] | Definition | DefinitionInsert
-  IsWordInDb: boolean | undefined
 }
 
-export const DefinitionModal = ({
-  modalVisible,
-  setModalVisible,
-  definition,
-  IsWordInDb,
-}: DefinitionModalProps) => {
+export const DefinitionModal = ({ modalVisible }: DefinitionModalProps) => {
+  const { definition, setModalVisible, IsWordInDb } = useWordlistContext()
   return (
     <Modal
       aria-label="definition-modal"
