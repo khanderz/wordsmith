@@ -8,7 +8,7 @@ interface DefinitionModalProps {
 }
 
 export const DefinitionModal = ({ modalVisible }: DefinitionModalProps) => {
-  const { definition, setModalVisible, IsWordInDb } = useWordlistContext()
+  const { definition, setModalVisible } = useWordlistContext()
   return (
     <Modal
       aria-label="definition-modal"
@@ -21,21 +21,11 @@ export const DefinitionModal = ({ modalVisible }: DefinitionModalProps) => {
         <Modal.Body>
           <VStack space={2}>
             <Text>
-              {IsWordInDb
-                ? (definition as DefinitionInsert)?.word_meanings?.map(
-                    (meaning, meaningIndex) =>
-                      meaning?.meanings_definitions?.map(
-                        (def, defIndex) => def?.definition,
-                      ),
-                  )
-                : definition &&
-                  (definition as Definition[])?.map((item, definitionIndex) =>
-                    item.meanings?.map((meaning, meaningIndex) =>
-                      meaning?.definitions?.map(
-                        (def, defIndex) => def?.definition,
-                      ),
-                    ),
-                  )}
+              {(definition as Definition[]).map((item, definitionIndex) =>
+                item.meanings?.map((meaning, meaningIndex) =>
+                  meaning?.definitions?.map((def, defIndex) => def?.definition),
+                ),
+              )}
             </Text>
           </VStack>
         </Modal.Body>

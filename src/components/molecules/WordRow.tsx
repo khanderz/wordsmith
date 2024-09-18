@@ -18,6 +18,7 @@ export const WordRow = ({ item, index, testID }: WordRowProps) => {
   // const handleDelete = async (index: number) => {}
   return (
     <Box
+      key={index}
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
@@ -25,7 +26,6 @@ export const WordRow = ({ item, index, testID }: WordRowProps) => {
       paddingX={4}
     >
       <Text
-        key={index}
         testID={testID}
         aria-label={`vocab-word-${index}`}
         textAlign="left"

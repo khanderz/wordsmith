@@ -9,8 +9,8 @@ import { Definition, DefinitionInsert } from '../../types'
 
 export interface WordlistContextProps {
   list: Definition[] | Definition
-  setWordToSearchVar: (word: Definition['word']) => void
-  IsWordInDb?: boolean
+  // setWordToSearchVar: (word: Definition['word']) => void
+  // IsWordInDb?: boolean
   addWord: (word: Definition['word']) => void
   definition: Definition[] | Definition | DefinitionInsert
   modalVisible: boolean
@@ -24,7 +24,7 @@ interface WordlistProviderProps {
 const WordlistContext = createContext<WordlistContextProps>({
   addWord: () => {},
   list: [],
-  setWordToSearchVar: () => {},
+  // setWordToSearchVar: () => {},
   definition: [],
   modalVisible: false,
   setModalVisible: () => {},
@@ -37,10 +37,10 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
 
   // states
   const [list, setList] = useState<Definition[] | Definition>([])
-  const [wordToSearchVar, setWordToSearchVar] = useState<
-    Definition['word'] | undefined
-  >(undefined)
-  const [IsWordInDb, setIsWordInDb] = useState<boolean | undefined>(undefined)
+  // const [wordToSearchVar, setWordToSearchVar] = useState<
+  //   Definition['word'] | undefined
+  // >(undefined)
+  // const [IsWordInDb, setIsWordInDb] = useState<boolean | undefined>(undefined)
   const [definition, setDefinition] = useState<
     Definition[] | Definition | DefinitionInsert
   >([])
@@ -56,15 +56,15 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   }
 
   // handles
-  const checkWordInDb = (word: Definition['word']) => {
-    const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
+  // const checkWordInDb = (word: Definition['word']) => {
+  //   const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
 
-    setIsWordInDb(!!wordInList)
-    setWordToSearchVar(wordToSearch)
-    if (wordInList) {
-      setDefinition(wordInList)
-    }
-  }
+  //   // setIsWordInDb(!!wordInList)
+  //   // setWordToSearchVar(wordToSearch)
+  //   if (wordInList) {
+  //     setDefinition(wordInList)
+  //   }
+  // }
 
   const handleInsert = (def: Definition[]) => {
     const { definitionObject, meaningsArray, definitionsMapped } =
@@ -78,37 +78,36 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   }
 
   const handleWordToSearch = async (word: Definition['word']) => {
-    checkWordInDb(word)
-    console.log({ IsWordInDb, word, wordToSearchVar })
-    if (IsWordInDb) {
-      setModalVisible(true)
-    } else {
-      // Use wordToSearchVar to fetch the definition from the external API
-      const defFromApi: Definition[] = await utils.fetchDict(wordToSearchVar)
+    // checkWordInDb(word)
+    // if (IsWordInDb) {
+    //   setModalVisible(true)
+    // } else {
+    // Use wordToSearchVar to fetch the definition from the external API
+    const defFromApi: Definition[] = await utils.fetchDict(word)
 
-      if (defFromApi[0]?.title === 'No Definitions Found') {
-        console.log('No Definitions Found')
-        // toast.show({ title: 'No Definitions Found' })
-      } else {
-        setModalVisible(true)
-        setDefinition(defFromApi)
-        handleInsert(defFromApi)
-      }
+    if (defFromApi[0]?.title === 'No Definitions Found') {
+      console.log('No Definitions Found')
+      // toast.show({ title: 'No Definitions Found' })
+    } else {
+      setModalVisible(true)
+      setDefinition(defFromApi)
+      handleInsert(defFromApi)
     }
+    // }
   }
 
   const addWord = async (word: Definition['word']) => {
     const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
 
-    setIsWordInDb(!!wordInList)
-    setWordToSearchVar(wordToSearch)
+    // setIsWordInDb(!!wordInList)
+    // setWordToSearchVar(wordToSearch)
 
-    if (IsWordInDb) {
-      toast.show({
-        title: 'Word Already Exists',
-      })
-      return
-    }
+    // if (IsWordInDb) {
+    //   toast.show({
+    //     title: 'Word Already Exists',
+    //   })
+    //   return
+    // }
 
     if (word === '') {
       toast.show({
@@ -145,14 +144,14 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
     return {
       addWord,
       list,
-      IsWordInDb,
-      setWordToSearchVar,
+      // IsWordInDb,
+      // setWordToSearchVar,
       definition,
       modalVisible,
       setModalVisible,
       handleWordToSearch,
     }
-  }, [list, IsWordInDb, addWord, handleInsert, definition, modalVisible])
+  }, [list, addWord, handleInsert, definition, modalVisible])
 
   return (
     <WordlistContext.Provider value={value}>

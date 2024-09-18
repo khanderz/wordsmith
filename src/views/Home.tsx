@@ -17,7 +17,7 @@ export const HomeScreen = () => {
       h="100%"
     >
       <WordList />
-      {modalVisible && <DefinitionModal modalVisible={modalVisible} />}
+      <DefinitionModal modalVisible={modalVisible} />
     </Flex>
   )
 }

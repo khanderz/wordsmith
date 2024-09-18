@@ -11,18 +11,12 @@ export const SeeDefinitionButton = ({
   index,
   item,
 }: SeeDefinitionButtonProps) => {
-  const { list, setWordToSearchVar, handleWordToSearch } = useWordlistContext()
+  const { list, handleWordToSearch } = useWordlistContext()
 
   const handleDefinitionButton = (index: number) => {
     const word = list?.[index].word
-
-    if (word) {
-      // setWordToSearchVar(word)
-      handleWordToSearch(word)
-    } else {
-      setWordToSearchVar(item.word)
-      handleWordToSearch(item.word)
-    }
+    console.log({ word })
+    handleWordToSearch(word)
   }
 
   return (
