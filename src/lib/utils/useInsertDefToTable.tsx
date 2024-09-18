@@ -3,7 +3,7 @@ import {
   MeaningsInsert,
   DefinitionsInsert,
 } from '../../types'
-import { supabase } from '../providers/supabaseProvider'
+import { supabase } from '../providers/SupabaseProvider'
 
 interface InsertDefToTableProps {
   definitionObject: DefinitionInsert

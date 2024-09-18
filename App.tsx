@@ -5,11 +5,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import 'react-native-url-polyfill/auto'
-import apolloClient from './src/clients/apollo'
 import { BottomBar } from './src/components/organisms/Navigation/BottomNavigationBar'
 import { TopBar } from './src/components/organisms/Navigation/TopBar'
-import { WordlistProvider } from './src/lib/providers/WordlistContext'
-import { SupabaseProvider } from './src/lib/providers/supabaseProvider'
+import apolloClient from './src/lib/clients/apollo'
+import { SupabaseProvider } from './src/lib/providers/SupabaseProvider'
+import { WordlistProvider } from './src/lib/providers/WordlistProvider'
 
 export default function App() {
   return (

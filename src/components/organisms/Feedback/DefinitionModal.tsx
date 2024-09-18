@@ -1,6 +1,6 @@
 import { VStack, Modal, Text } from 'native-base'
 
-import { useWordlistContext } from '../../../lib/providers/WordlistContext'
+import { useWordlistContext } from '../../../lib/providers/WordlistProvider'
 import { Definition, DefinitionInsert } from '../../../types'
 
 interface DefinitionModalProps {

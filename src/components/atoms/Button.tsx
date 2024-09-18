@@ -17,6 +17,7 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <ButtonTemplate
+      labelStyle={{ textTransform: 'uppercase' }}
       style={{ margin: 5, borderRadius: 5 }}
       testID={testID}
       onPress={onPress}

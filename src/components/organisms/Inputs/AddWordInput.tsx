@@ -1,7 +1,7 @@
 import { Box, Input } from 'native-base'
 
+import { SimpleAnvilLogo } from '../../../lib/assets/icons/anvilSimple'
 import { Definition } from '../../../types'
-import { SimpleAnvilLogo } from '../../icons/anvilSimple'
 
 interface AddWordInputProps {
   setInputValue: React.Dispatch<React.SetStateAction<string>>

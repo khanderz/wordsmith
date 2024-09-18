@@ -2,7 +2,7 @@ import { QueryData } from '@supabase/supabase-js'
 import { useToast } from 'native-base'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
-import { supabase } from './supabaseProvider'
+import { supabase } from './SupabaseProvider'
 import { Database } from '../../../supabase/database.types'
 import { utils } from '../../lib/utils/index'
 import { Definition, DefinitionInsert } from '../../types'

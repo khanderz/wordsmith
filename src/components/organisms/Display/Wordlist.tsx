@@ -1,7 +1,7 @@
 import { Box, VStack } from 'native-base'
 import { Divider } from 'react-native-paper'
 
-import { useWordlistContext } from '../../../lib/providers/WordlistContext'
+import { useWordlistContext } from '../../../lib/providers/WordlistProvider'
 import { Definition } from '../../../types'
 import { WordRow } from '../../molecules/WordRow'
 

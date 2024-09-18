@@ -2,7 +2,7 @@ import { Flex } from 'native-base'
 
 import { WordList } from '../components/organisms/Display/Wordlist'
 import { DefinitionModal } from '../components/organisms/Feedback/DefinitionModal'
-import { useWordlistContext } from '../lib/providers/WordlistContext'
+import { useWordlistContext } from '../lib/providers/WordlistProvider'
 
 export const HomeScreen = () => {
   // utils

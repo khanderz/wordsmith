@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Appbar } from 'react-native-paper'
 
 import useShareIntent from '../../../lib/hooks/useShareIntent'
-import { useWordlistContext } from '../../../lib/providers/WordlistContext'
+import { useWordlistContext } from '../../../lib/providers/WordlistProvider'
 import { Definition } from '../../../types'
 import { AddWordInput } from '../../organisms/Inputs/AddWordInput'
 

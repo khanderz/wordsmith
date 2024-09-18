@@ -1,4 +1,4 @@
-import { useWordlistContext } from '../../lib/providers/WordlistContext'
+import { useWordlistContext } from '../../lib/providers/WordlistProvider'
 import { Definition } from '../../types'
 import { Button } from '../atoms/Button'
 
