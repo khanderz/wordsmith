@@ -61,14 +61,6 @@ export const HomeScreen = () => {
       w="100%"
       h="100%"
     >
-      {/* <AddWordInput
-        testID="add-word-input"
-        addWord={addWord}
-        //@ts-ignore
-        setInputValue={setInputValue}
-        inputValue={inputValue}
-        fetchCopiedText={fetchCopiedText}
-      /> */}
       <VStack testID="word-list" space={2}>
         {(list as Definition[])?.map((item, index) => {
           return (

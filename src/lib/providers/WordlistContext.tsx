@@ -24,16 +24,16 @@ const WordlistContext = createContext<WordlistContextProps>({
   wordToSearchVar: '',
 })
 
-export function WordlistProvider({ children }: WordlistProviderProps) {
-  let IsWordInDb: boolean | undefined = undefined
-  let wordToSearchVar: string | undefined = undefined
+let IsWordInDb: boolean | undefined = undefined
+let wordToSearchVar: string | undefined = undefined
 
+export function WordlistProvider({ children }: WordlistProviderProps) {
   // utils
   const toast = useToast()
 
   // word list
   const [list, setList] = useState<Definition[] | Definition | undefined>([])
-  console.log({ list })
+
   // supabase fetch
   const [fetchError, setFetchError] = useState<QueryError | null>(null)
 
@@ -43,7 +43,6 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
     if (error) {
       setFetchError(error)
       setList(undefined)
-      console.log(fetchError)
       return
     }
     if (data) {

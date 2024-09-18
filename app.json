@@ -4,11 +4,11 @@
     "slug": "dictionary",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/anvilLogo.svg",
     "userInterfaceStyle": "light",
     "scheme": "wordsmith",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/anvilSketch.svg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
