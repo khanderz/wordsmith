@@ -1,14 +1,22 @@
+import { useEffect } from 'react'
 import { View, Text, ActivityIndicator } from 'react-native'
 
+import { useSnackbar } from '../../../lib/providers/SnackbarProvider'
 import { useUser } from '../../../lib/providers/UserProvider'
 
-interface UserProfileProps {}
+export const UserProfile = () => {
+  const { user, loading, error, fetchUser } = useUser()
+  const { showSnackbar } = useSnackbar()
 
-export const UserProfile = ({}: UserProfileProps) => {
-  const { user, loading, error } = useUser()
+  useEffect(() => {
+    if (error) {
+      showSnackbar(`Error: ${error}`, 'Retry', () => {
+        fetchUser()
+      })
+    }
+  }, [error, showSnackbar, fetchUser])
 
   if (loading) return <ActivityIndicator />
-  if (error) return <Text>Error: {error}</Text>
 
   return (
     <View>

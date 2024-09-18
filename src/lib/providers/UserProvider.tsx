@@ -78,8 +78,8 @@ export function UserProvider({ children }: UserProviderProps) {
       } else {
         setError('User not found')
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
+      console.error(e)
       setError('Failed to fetch user data')
     } finally {
       setLoading(false)
@@ -128,8 +128,8 @@ export function UserProvider({ children }: UserProviderProps) {
       await fetchUser()
 
       setError(null)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
+      console.error(e)
       setError('Failed to add user')
     } finally {
       setLoading(false)
