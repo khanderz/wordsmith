@@ -9,7 +9,8 @@ import { Definition, DefinitionInsert } from '../types'
 
 export const HomeScreen = () => {
   // utils
-  const { list, IsWordInDb, wordToSearchVar } = useWordlistContext()
+  const { list, IsWordInDb, wordToSearchVar, setWordToSearchVar } =
+    useWordlistContext()
   const toast = useToast()
 
   // definitions
@@ -49,7 +50,7 @@ export const HomeScreen = () => {
   }
 
   const handleDefinitionButton = (index: number) => {
-    wordToSearchVar = list?.[index].word
+    setWordToSearchVar(list?.[index].word)
     handleWordToSearch()
   }
 

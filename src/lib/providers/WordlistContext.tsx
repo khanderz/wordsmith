@@ -12,6 +12,7 @@ export interface WordlistContextProps {
   list: Definition[] | Definition | undefined
   IsWordInDb?: boolean
   wordToSearchVar?: string
+  setWordToSearchVar: (word: string) => void
 }
 interface WordlistProviderProps {
   children: React.ReactNode
@@ -22,10 +23,8 @@ const WordlistContext = createContext<WordlistContextProps>({
   list: [],
   IsWordInDb: false,
   wordToSearchVar: '',
+  setWordToSearchVar: () => {},
 })
-
-let IsWordInDb: boolean | undefined = undefined
-let wordToSearchVar: string | undefined = undefined
 
 export function WordlistProvider({ children }: WordlistProviderProps) {
   // utils
@@ -33,6 +32,10 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
 
   // word list
   const [list, setList] = useState<Definition[] | Definition | undefined>([])
+  const [wordToSearchVar, setWordToSearchVar] = useState<string | undefined>(
+    undefined,
+  )
+  const [IsWordInDb, setIsWordInDb] = useState<boolean | undefined>(undefined)
 
   // supabase fetch
   const [fetchError, setFetchError] = useState<QueryError | null>(null)
@@ -55,8 +58,8 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   const addWord = async (word: Definition['word']) => {
     const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
 
-    IsWordInDb = !!wordInList
-    wordToSearchVar = wordToSearch
+    setIsWordInDb(!!wordInList)
+    setWordToSearchVar(wordToSearch)
 
     if (IsWordInDb) {
       toast.show({
@@ -107,6 +110,7 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
       list,
       IsWordInDb,
       wordToSearchVar,
+      setWordToSearchVar,
     }
   }, [list, IsWordInDb, wordToSearchVar])
 
