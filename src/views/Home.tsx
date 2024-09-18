@@ -1,4 +1,4 @@
-import { Flex, useToast, VStack } from 'native-base'
+import { Flex, useToast } from 'native-base'
 import { useState } from 'react'
 
 import { WordList } from '../components/organisms/Display/Wordlist'
@@ -61,19 +61,7 @@ export const HomeScreen = () => {
       w="100%"
       h="100%"
     >
-      <VStack testID="word-list" space={2}>
-        {(list as Definition[])?.map((item, index) => {
-          return (
-            <WordList
-              testID={`word-${index}`}
-              key={index}
-              index={index}
-              item={item}
-              handleDefinitionButton={handleDefinitionButton}
-            />
-          )
-        })}
-      </VStack>
+      <WordList list={list} handleDefinitionButton={handleDefinitionButton} />
       <DefinitionModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

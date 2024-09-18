@@ -1,54 +1,32 @@
-import { Button, HStack, Text } from 'native-base'
-import { useClient, useDelete } from 'react-supabase'
+import { VStack } from 'native-base'
+import { Divider } from 'react-native-paper'
 
-import { SeeDefinitionButton } from '../../molecules/SeeDefinitionButton'
+import { WordlistContextProps } from '../../../lib/providers/WordlistContext'
+import { Definition } from '../../../types'
+import { WordRow } from '../../molecules/WordRow'
 
 interface WordlistProps {
-  index: number
-  item: { word: string }
+  list: WordlistContextProps['list']
   handleDefinitionButton: (index: number, word: string) => void
-  testID?: string
 }
 
-export const WordList = ({
-  index,
-  item,
-  testID,
-  handleDefinitionButton,
-}: WordlistProps) => {
-  // const client = useClient()
-  // const [{ count, data, error, fetching }, execute] = useDelete('todos')
-
-  // const handleDelete = async (index: number) => {}
+export const WordList = ({ list, handleDefinitionButton }: WordlistProps) => {
   return (
-    <HStack
-      testID={testID}
-      key={index}
-      w="100%"
-      justifyContent="start"
-      alignItems="center"
-    >
-      <Text
-        key={index}
-        aria-label={`vocab-word-${index}`}
-        textAlign="left"
-        margin={1}
-      >
-        {item.word}
-      </Text>
-      <SeeDefinitionButton
-        handleDefinitionButton={handleDefinitionButton}
-        index={index}
-        item={item}
-      />
-      {/* <Button
-        key={index}
-        aria-label="delete-button"
-        size="sm"
-        onPress={() => handleDelete(index)}
-      >
-        Delete
-      </Button> */}
-    </HStack>
+    <VStack testID="word-list" space={2}>
+      <Divider />
+      {(list as Definition[])?.map((item, index) => {
+        return (
+          <>
+            <WordRow
+              testID={`word-${index}`}
+              index={index}
+              item={item}
+              handleDefinitionButton={handleDefinitionButton}
+            />
+            <Divider />
+          </>
+        )
+      })}
+    </VStack>
   )
 }

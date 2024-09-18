@@ -7,7 +7,7 @@ import { Database } from '../../../supabase/database.types'
 import { utils } from '../../lib/utils/index'
 import { Definition } from '../../types'
 
-interface WordlistContextProps {
+export interface WordlistContextProps {
   addWord: (word: Definition['word']) => void
   list: Definition[] | Definition | undefined
   IsWordInDb?: boolean
