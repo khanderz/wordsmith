@@ -15,7 +15,7 @@ export const SeeDefinitionButton = ({
 
   const handleDefinitionButton = (index: number) => {
     const word = list?.[index].word
-    console.log({ word })
+
     handleWordToSearch(word)
   }
 

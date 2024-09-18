@@ -84,7 +84,6 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
     // } else {
     // Use wordToSearchVar to fetch the definition from the external API
     const defFromApi: Definition[] = await utils.fetchDict(word)
-    console.log({ word, defFromApi })
 
     if (defFromApi[0]?.title === 'No Definitions Found') {
       console.log('No Definitions Found')
@@ -98,19 +97,6 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   }
 
   const addWord = async (word: Definition['word']) => {
-    // const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
-    console.log({ word })
-
-    // setIsWordInDb(!!wordInList)
-    // setWordToSearchVar(wordToSearch)
-
-    // if (IsWordInDb) {
-    //   toast.show({
-    //     title: 'Word Already Exists',
-    //   })
-    //   return
-    // }
-
     if (word === '') {
       toast.show({
         title: 'Please Enter Text',
@@ -118,23 +104,31 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
       return
     }
 
-    // Insert the word into the Supabase database
-    const { error } = await supabase.from('definition').insert([{ word }])
+    try {
+      // Insert the word into the Supabase database
+      const { error } = await supabase.from('definition').insert([{ word }])
 
-    if (error) {
+      if (error) {
+        console.error('Supabase Insert Error:', error)
+        toast.show({
+          title: 'Error Adding Word',
+          description: error.message,
+        })
+        return
+      }
+
+      // Refetch the word list after adding a new word
+      await fetchWords()
+
       toast.show({
-        title: 'Error Adding Word',
-        description: error.message,
+        title: 'Word Added Successfully',
       })
-      return
+    } catch (e) {
+      console.error('Add Word Failed:', e)
+      toast.show({
+        title: 'An unexpected error occurred',
+      })
     }
-
-    // Refetch the word list after adding a new word
-    await fetchWords()
-
-    toast.show({
-      title: 'Word Added Successfully',
-    })
   }
 
   // lifecycle methods

@@ -2,7 +2,6 @@ import { Box, Text } from 'native-base'
 import { useClient, useDelete } from 'react-supabase'
 
 import { SeeDefinitionButton } from './SeeDefinitionButton'
-import { useWordlistContext } from '../../lib/providers/WordlistContext'
 import { Definition } from '../../types'
 
 interface WordRowProps {

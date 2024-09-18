@@ -1,4 +1,4 @@
-import { VStack } from 'native-base'
+import { Box, VStack } from 'native-base'
 import { Divider } from 'react-native-paper'
 
 import { useWordlistContext } from '../../../lib/providers/WordlistContext'
@@ -12,15 +12,10 @@ export const WordList = () => {
       <Divider />
       {(list as Definition[])?.map((item, index) => {
         return (
-          <>
-            <WordRow
-              key={index}
-              testID={`word-${index}`}
-              index={index}
-              item={item}
-            />
+          <Box key={item.id || index}>
+            <WordRow testID={`word-${index}`} index={index} item={item} />
             <Divider />
-          </>
+          </Box>
         )
       })}
     </VStack>

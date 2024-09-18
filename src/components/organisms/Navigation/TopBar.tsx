@@ -5,7 +5,6 @@ import { Appbar } from 'react-native-paper'
 
 import useShareIntent from '../../../lib/hooks/useShareIntent'
 import { useWordlistContext } from '../../../lib/providers/WordlistContext'
-import { utils } from '../../../lib/utils'
 import { Definition } from '../../../types'
 import { AddWordInput } from '../../organisms/Inputs/AddWordInput'
 
@@ -15,7 +14,7 @@ interface TopBarProps {
 
 export const TopBar = ({ testID }: TopBarProps) => {
   // hooks
-  const { shareIntent, resetShareIntent, text } = useShareIntent()
+  const { resetShareIntent, text } = useShareIntent()
   const { addWord } = useWordlistContext()
 
   // states
