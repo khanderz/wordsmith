@@ -3,8 +3,7 @@ import React from 'react'
 import { Provider } from 'react-supabase'
 
 import 'react-native-url-polyfill/auto'
-import { Database } from '../../supabase/database.types'
-import { Definition, WordList } from '../types'
+import { WordList } from '../../types'
 
 export const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL
 export const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_KEY

@@ -84,6 +84,7 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
     // } else {
     // Use wordToSearchVar to fetch the definition from the external API
     const defFromApi: Definition[] = await utils.fetchDict(word)
+    console.log({ word, defFromApi })
 
     if (defFromApi[0]?.title === 'No Definitions Found') {
       console.log('No Definitions Found')
@@ -97,7 +98,8 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   }
 
   const addWord = async (word: Definition['word']) => {
-    const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
+    // const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
+    console.log({ word })
 
     // setIsWordInDb(!!wordInList)
     // setWordToSearchVar(wordToSearch)
