@@ -1,6 +1,8 @@
-import { Box } from 'native-base'
+import { Ionicons } from '@expo/vector-icons'
+import { Box, View } from 'native-base'
 import { useState } from 'react'
 import { ActivityIndicator } from 'react-native'
+import { IconButton } from 'react-native-paper'
 
 import { useSnackbar } from '../../../lib/providers/SnackbarProvider'
 import { useUser } from '../../../lib/providers/UserProvider'
@@ -13,6 +15,7 @@ export const Login = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleLogin = async () => {
     try {
@@ -41,11 +44,31 @@ export const Login = () => {
       }}
     >
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-      />
+      <Box
+        position="relative"
+        width="100%"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+        />
+        <View style={{ position: 'absolute', right: 20 }}>
+          <IconButton
+            icon={() => (
+              <Ionicons
+                name={showPassword ? 'eye-off' : 'eye'}
+                size={24}
+                color="black"
+              />
+            )}
+            onPress={() => setShowPassword(!showPassword)}
+          />
+        </View>
+      </Box>
       <Button buttonText="Login" onPress={handleLogin} testID="login-button" />
     </Box>
   )
