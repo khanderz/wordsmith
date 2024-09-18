@@ -1,13 +1,13 @@
-import { Session } from '@supabase/supabase-js'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 import { supabase } from './SupabaseProvider'
 import { WordList, Definition } from '../../types'
 
-interface User {
+export interface User {
   user_id: number
   user_name: string
   user_email: string
+  user_password: string
   user_wordlist: WordList[]
   user_favorite_words: Definition[]
 }
@@ -17,6 +17,11 @@ interface UserContextProps {
   loading: boolean
   error: string | null
   fetchUser: () => Promise<void>
+  addUser: (
+    userName: User['user_name'],
+    userEmail: User['user_email'],
+    password: User['user_password'],
+  ) => Promise<void>
 }
 
 interface UserProviderProps {
@@ -29,6 +34,7 @@ const UserContext = createContext<UserContextProps>({
   loading: false,
   error: null,
   fetchUser: async () => {},
+  addUser: async () => {},
 })
 
 export function UserProvider({ children }: UserProviderProps) {
@@ -58,7 +64,7 @@ export function UserProvider({ children }: UserProviderProps) {
       const { data, error } = await supabase
         .from('user')
         .select(
-          'user_id, user_name, user_email, user_wordlist, user_favorite_words',
+          'user_id, user_name, user_email, user_password, user_wordlist, user_favorite_words',
         )
         .eq('user_id', userId)
 
@@ -81,6 +87,57 @@ export function UserProvider({ children }: UserProviderProps) {
     }
   }
 
+  const addUser = async (
+    userName: User['user_name'],
+    userEmail: User['user_email'],
+    password: User['user_password'],
+  ) => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      // Sign up the user using Supabase auth (optional if you handle auth separately)
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: userEmail,
+        password,
+      })
+
+      const user = data?.user
+
+      if (signUpError || !user) {
+        setError(signUpError ? signUpError.message : 'Failed to sign up')
+        setLoading(false)
+        return
+      }
+
+      // After successful signup, insert user data into the `user` table
+      const { error } = await supabase.from('user').insert({
+        user_id: user.id, // Use Supabase-generated user ID
+        user_name: userName,
+        user_email: userEmail,
+        user_password: password,
+        user_wordlist: [], // Initialize with an empty wordlist
+        user_favorite_words: [], // Initialize with empty favorite words
+      })
+
+      if (error) {
+        setError(error.message)
+        setLoading(false)
+        return
+      }
+
+      // Fetch the user after adding it to the database
+      await fetchUser()
+
+      setError(null)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      setError('Failed to add user')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     // Fetch user when the component mounts
     fetchUser()
@@ -92,6 +149,7 @@ export function UserProvider({ children }: UserProviderProps) {
       loading,
       error,
       fetchUser,
+      addUser,
     }),
     [user, loading, error],
   )
