@@ -52,7 +52,7 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   }
 
   // handles
-  const addWord = (word: Definition['word']) => {
+  const addWord = async (word: Definition['word']) => {
     const { wordInList, wordToSearch } = utils.UseIsWordInDb({ list, word })
 
     IsWordInDb = !!wordInList
@@ -72,14 +72,22 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
       return
     }
 
-    setList((prevList: Definition) => {
-      return [
-        //@ts-ignore
-        ...prevList,
-        {
-          word,
-        },
-      ]
+    // Insert the word into the Supabase database
+    const { error } = await supabase.from('definition').insert([{ word }])
+
+    if (error) {
+      toast.show({
+        title: 'Error Adding Word',
+        description: error.message,
+      })
+      return
+    }
+
+    // Refetch the word list after adding a new word
+    await fetchWords()
+
+    toast.show({
+      title: 'Word Added Successfully',
     })
   }
 
@@ -87,6 +95,11 @@ export function WordlistProvider({ children }: WordlistProviderProps) {
   useEffect(() => {
     fetchWords()
   }, [])
+
+  // Re-fetch data whenever the list changes
+  useEffect(() => {
+    fetchWords()
+  }, [list])
 
   const value = useMemo(() => {
     return {
