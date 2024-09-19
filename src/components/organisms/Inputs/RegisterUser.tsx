@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons'
 import { Box, View } from 'native-base'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IconButton } from 'react-native-paper'
 
 import { useSnackbar } from '../../../lib/providers/SnackbarProvider'
@@ -8,8 +8,8 @@ import { useUser } from '../../../lib/providers/UserProvider'
 import { Button } from '../../atoms/Button'
 import { TextInput } from '../../atoms/TextInput'
 
-export const RegisterScreen = () => {
-  const { addUser, loading } = useUser()
+export const RegisterScreen = ({ setIsRegistering }) => {
+  const { addUser, loading, registrationError } = useUser()
   const { showSnackbar } = useSnackbar()
 
   const [email, setEmail] = useState('')
@@ -17,26 +17,47 @@ export const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [registrationAttempted, setRegistrationAttempted] = useState(false)
 
   const handleRegister = async () => {
+    setRegistrationAttempted(true)
+
+    if (!email || !password || !confirmPassword) {
+      showSnackbar('Please fill out all fields', 'Dismiss')
+      return
+    }
+
     if (password !== confirmPassword) {
       showSnackbar('Passwords do not match', 'Dismiss')
       return
     }
 
-    try {
-      await addUser(email, password)
-
-      showSnackbar('Registration successful!', 'Dismiss')
-    } catch (error) {
-      showSnackbar(
-        `Registration failed: ${error?.message || 'Unknown error'}`,
-        'Retry',
-        handleRegister,
-      )
-    }
+    await addUser(email, password)
   }
 
+  useEffect(() => {
+    console.log('Inside useEffect', {
+      registrationError,
+      loading,
+    })
+    console.log('Registration attempted:', registrationAttempted)
+    if (registrationAttempted) {
+      showSnackbar('Testing Snackbar', 'Dismiss')
+
+      if (registrationError) {
+        showSnackbar(`Registration failed: ${registrationError}`, 'Dismiss')
+      } else if (!loading && !registrationError) {
+        showSnackbar('Registration successful!', 'Dismiss')
+        setIsRegistering(false)
+      }
+    }
+  }, [
+    registrationError,
+    loading,
+    showSnackbar,
+    setIsRegistering,
+    registrationAttempted,
+  ])
   return (
     <Box
       style={{

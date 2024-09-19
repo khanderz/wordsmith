@@ -16,6 +16,7 @@ interface UserContextProps {
   user: User | null
   loading: boolean
   error: string | null
+  registrationError: string | null
   fetchUser: () => Promise<void>
   addUser: (
     userEmail: User['user_email'],
@@ -32,6 +33,7 @@ const UserContext = createContext<UserContextProps>({
   user: null,
   loading: false,
   error: null,
+  registrationError: null,
   fetchUser: async () => {},
   addUser: async () => {},
 })
@@ -40,6 +42,9 @@ export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [registrationError, setRegistrationError] = useState<string | null>(
+    null,
+  )
 
   // Function to fetch the user data from Supabase
   const fetchUser = async () => {
@@ -92,9 +97,8 @@ export function UserProvider({ children }: UserProviderProps) {
   ) => {
     try {
       setLoading(true)
-      setError(null)
+      setRegistrationError(null)
 
-      // Sign up the user using Supabase auth (optional if you handle auth separately)
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: userEmail,
         password,
@@ -102,24 +106,25 @@ export function UserProvider({ children }: UserProviderProps) {
 
       const user = data?.user
 
-      if (signUpError || !user) {
-        setError(signUpError ? signUpError.message : 'Failed to sign up')
+      if (signUpError ?? !user) {
+        setRegistrationError(
+          signUpError ? signUpError.message : 'Failed to sign up',
+        )
         setLoading(false)
         return
       }
 
       // After successful signup, insert user data into the `user` table
-      const { error } = await supabase.from('user').insert({
+      const { error } = await supabase.from('users').insert({
         user_id: user.id, // Use Supabase-generated user ID
         user_name: userEmail,
         user_email: userEmail,
-        user_password: password,
         user_wordlist: [], // Initialize with an empty wordlist
         user_favorite_words: [], // Initialize with empty favorite words
       })
 
       if (error) {
-        setError(error.message)
+        setRegistrationError(error.message)
         setLoading(false)
         return
       }
@@ -130,7 +135,7 @@ export function UserProvider({ children }: UserProviderProps) {
       setError(null)
     } catch (e) {
       console.error(e)
-      setError('Failed to add user')
+      setRegistrationError('Failed to add user')
     } finally {
       setLoading(false)
     }
@@ -146,6 +151,7 @@ export function UserProvider({ children }: UserProviderProps) {
       user,
       loading,
       error,
+      registrationError,
       fetchUser,
       addUser,
     }),

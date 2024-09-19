@@ -27,7 +27,7 @@ export const AccountScreen = () => {
         <>
           {isRegistering ? (
             <>
-              <RegisterScreen />
+              <RegisterScreen setIsRegistering={setIsRegistering} />
               <Button
                 buttonText="Already have an account? Log in"
                 onPress={() => setIsRegistering(false)}
