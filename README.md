@@ -2,9 +2,9 @@
 
 ## Description:
 
-Wordsmith is a vocabulary-building mobile app that lets users save and organize words they encounter. 
-  Its Share Intent feature allows you to quickly save words directly from your browser, making it 
-  easy to build a vocabulary list while browsing the web.
+Wordsmith is a cross-platform vocabulary-building mobile app that lets users save and organize words they encounter. 
+  Its Share Intent feature allows you to quickly save words directly from your browser, making it easy to build a 
+  vocabulary list while browsing the web.
 
 ## Deployment:
 
